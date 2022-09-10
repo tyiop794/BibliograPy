@@ -87,7 +87,11 @@ class Article:
             elif len(self.authors) == 2:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}., & {self.authors[1][0]}, {self.authors[1][1][0]}. "
             else:
-                print("Placeholder boi")
+                for i in range(0, len(self.authors)):
+                    if i != (len(self.authors) - 1):
+                        citation += f"{self.authors[i][0]}, {self.authors[i][1][0]}., "
+                    else:
+                        citation += f"& {self.authors[i][0]}, {self.authors[i][1][0]}. "
         if self.date_published != "":
             citation += f"({self.date_published}). "
         if self.title != "":
@@ -117,10 +121,30 @@ class Article:
             """
         if new_citation[len(new_citation) - 1] == ",":
             new_citation = new_citation[0:len(new_citation) - 1] + "."
-        return new_citation 
+        return new_citation
 
     def chicago(self):
-        print()
+        citation = ""
+        if self.authors != []:
+            print("Figure it out boio!!")
+        if self.title != "":
+            citation += f"\"{self.title}.\" "
+        if self.journal != "":
+            citation += f"<em>{self.journal}</em>"
+        if self.volume != "":
+            citation += f"{self.volume}, "
+        if self.issue != "":
+            citation += f"no. {self.issue} "
+        if self.date_published != "":
+            citation += f"({self.date_published}): "
+        if self.pages != "":
+            citation += f"{self.pages}."
+        citation.strip()
+        if citation[len(citation) - 1] != ".":
+            citation = citation[0:len(citation) - 1] + "."
+        return citation
+        
+
 
     def output(self):
         print("Title: " + self.title)
@@ -130,7 +154,7 @@ class Article:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0] + " and "
             + self.authors[1][1] + self.authors[1][0])
         else:
-            print("Authors: ", end='')
+            print("Author(s): ", end='')
             for i in range(0, len(self.authors)):
                 if i == (len(self.authors) - 1):
                     print("and " + self.authors[i][1] + self.authors[i][0])
@@ -151,13 +175,14 @@ class Article:
 
 
 class Book:
-    def __init__(self, title, authors, date_published, publisher, digital,  url=None): 
+    def __init__(self, title, authors, date_published, publisher, digital, publication_place, url=None): 
         self.title = title
         self.authors = authors
         self.date_published = date_published
         self.publisher = publisher
         self.digital = digital
         self.url = url
+        self.publication_place = publication_place
 
     def mla(self):
         citation = ""
@@ -215,19 +240,29 @@ class Book:
         if self.digital == "d":
             citation += f"{self.url}"
         citation.strip()
-        new_citation = ""
-        cnt = 0
-        for i in range(0, len(citation)):
-            new_citation += citation[i]
-            if i == 90:
-                new_citation += "\n     " 
-                cnt += 1
-            elif i == (90 + (75 * cnt)):
-                new_citation += "     "
-                cnt += 1
-        if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0:len(new_citation) - 1] + "."
-        return new_citation 
+        if citation[len(citation) - 1] != ".":
+            citation = citation[0:len(citation) - 1] + "."
+        return citation 
+    
+    def chicago(self):
+        citation = ""
+        if self.authors != []:
+            if len(self.authors) == 1:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
+            elif len(self.authors) == 2:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1]} and {self.authors[0][1]}{self.authors[0][0]}. "
+        if self.title != "":
+            citation += f"<em>{self.title}</em>. "
+        if self.publication_place != "":
+            citation += f"{self.publication_place}: "
+        if self.publisher != "":
+            citation += f"{self.publisher}, "
+        if self.date_published != "":
+            citation += f"{self.date_published}. "
+        citation.strip()
+        if citation[len(citation) - 1] != ".":
+            citation = citation[0:len(citation) - 1] + "."
+        return citation
 
     def output(self):
         """
@@ -260,10 +295,6 @@ class Book:
         print("Digital: " + digital)
         if self.digital == "d":
             print("URL/DOI: " + self.url)
-
-    def chicago(sources):
-        print()
-
 
 def export_entries(sources, type):
     # Will export entries using html + css
@@ -322,6 +353,7 @@ def main():
                 author_no = int(input("Number of authors (default is 1): "))
             except ValueError:
                 author_no = 1
+            print("Authors' names should be listed in order they appear on source!: ")
             if author_no > 1:
                 for i in range(0, author_no):
                     lastname = input(f"Last name of author {i + 1}: ")
