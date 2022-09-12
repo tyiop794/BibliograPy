@@ -9,8 +9,8 @@ Features:
  - choose from different source types (internet article, book, journal article, video)
  - specify parts directly to the command line w/o needing to enter the program interactively
  - switch between different editions of the formats (more commonly used
-   such as MLA 8th edition)
- - create a GUI using tkinter or curses (that's a maybe?)
+   such as MLA 8th edition) (might be a bit tricky)
+ - create a GUI or interactive / easy-to-use TUI using tkinter or curses (that's a maybe?)
  - try looking up unknown information about source and filling in missing bits in citation
 
 """
@@ -22,13 +22,91 @@ import pdfkit
 import tkinter as tk
 from tkinter import filedialog
 
-class Podcast:
-    def __init__(self, title, authors):
+class Website:
+    def __init__(self):
         pass
+
+
+class Podcast:
+    def __init__(self, title, host, publisher, podcast, date, url, duration):
+        self.host = host
+        self.title = title
+        self.publisher = publisher
+        self.podcast = podcast
+        self.date = date
+        self.url = url
+        self.duration = duration
+
+    def mla(self):
+        citation = ""
+        if self.title != "":
+            citation += f"\"{self.title}.\" "
+        if self.podcast != "":
+            citation += f"<em>{self.podcast}</em> "
+        if self.publisher != "":
+            citation += f"from {self.publisher}, "
+        if self.date != "":
+            citation += f"{self.date}, " # Need to figure out formatting on this...
+        if self.url != "":
+            citation += f"{self.url}. "
+        citation = citation.strip()
+        if citation[len(citation) - 1] == ",":
+            citation = citation[0:len(citation) - 1] + "."
+        elif citation[len(citation) - 1].isalpha():
+            citation = citation[0:len(citation)] + "."
+
+    def apa(self):
+        citation = ""
+        if self.host != []:
+            if len(self.host) == 1:
+                citation += f"{self.host[0]}, {self.host[1][0]}. "
+        if self.date != "":
+            citation += f"({self.date}). " # Also formatting for this
+        if self.title != "":
+            citation += f"{self.title}. "
+        if self.podcast != "":
+            citation += f"In <em>{self.podcast}</em>. "
+        if self.publisher != "":
+            citation += f"{self.publisher}. "
+        if self.url != "":
+            citation += f"{self.url}"
+        citation.strip()
+        if citation[len(citation) - 1].isalpha():
+            citation += "."
+        elif citation[len(citation) - 1] == ",":
+            citation = citation[0:len(citation) - 1] + "."
+        return citation
+    
+    def chicago(self):
+        citation = ""
+        if self.host != []:
+            if len(self.host) == 1:
+                citation += f"{self.host[0][0]}, {self.host[0][1]}. "
+            elif len(self.host) == 2:
+                citation += f"{self.host[0][0]}, {self.host[0][1]} and {self.host[1][1]} {self.host[1][0]}. "
+        if self.publisher != "":
+            citation += f"Produced by {self.publisher}. "
+        if self.podcast != "":
+            citation += f"<em>{self.podcast}</em>. "
+        if self.date != "":
+            citation += f"{self.date}. " # Formatting for this
+        if self.duration != "":
+            citation += f"Podcast, MP3 audio, {self.duration}, "
+        if self.url != "":
+            citation += f"{self.url}. "
+        citation.strip()
+        if citation[len(citation) - 1].isalpha():
+            citation += "."
+        elif citation[len(citation) - 1] != ".":
+            citation = citation[0:len(citation) - 1] + "."
+        return citation
+         
+        
+        
 
 # Refers to scholarly article
 class Article:
-    def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url=None):
+    def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
         self.title = title
         self.authors = authors
         self.digital = digital
@@ -38,6 +116,7 @@ class Article:
         self.pages = pages
         self.date_published = date_published
         self.url = url
+        self.accessed = accessed
     
     def mla(self):
         citation = ""
@@ -62,7 +141,7 @@ class Article:
             citation += f"{self.date_published}, "
         if self.pages != "":
             citation += f"pp. {self.pages}. "
-        citation.strip()
+        citation = citation.strip()
         new_citation = ""
         cnt = 0
         for i in range(0, len(citation)):
@@ -106,7 +185,7 @@ class Article:
             citation += f"{self.pages}. "
         if self.digital == "d":
             citation += f"{self.url}"
-        citation.strip()
+        citation = citation.strip()
         new_citation = ""
         cnt = 0
         for i in range(0, len(citation)):
@@ -126,7 +205,10 @@ class Article:
     def chicago(self):
         citation = ""
         if self.authors != []:
-            print("Figure it out boio!!")
+            if len(self.authors) == 1:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
+            elif len(self.authors) == 2:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1]} and {self.authors[0][1]}{self.authors[0][0]}. "
         if self.title != "":
             citation += f"\"{self.title}.\" "
         if self.journal != "":
@@ -139,7 +221,7 @@ class Article:
             citation += f"({self.date_published}): "
         if self.pages != "":
             citation += f"{self.pages}."
-        citation.strip()
+        citation = citation.strip()
         if citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation) - 1] + "."
         return citation
@@ -175,7 +257,7 @@ class Article:
 
 
 class Book:
-    def __init__(self, title, authors, date_published, publisher, digital, publication_place, url=None): 
+    def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
         self.title = title
         self.authors = authors
         self.date_published = date_published
@@ -183,6 +265,7 @@ class Book:
         self.digital = digital
         self.url = url
         self.publication_place = publication_place
+        self.accessed = accessed
 
     def mla(self):
         citation = ""
@@ -202,7 +285,7 @@ class Book:
             citation += f"{self.publisher}, "
         if self.date_published != "":
             citation += f"{self.date_published}, "
-        citation.strip()
+        citation = citation.strip()
         new_citation = ""
         cnt = 0
         for i in range(0, len(citation)):
@@ -239,7 +322,7 @@ class Book:
             citation += f"{self.publisher}. "
         if self.digital == "d":
             citation += f"{self.url}"
-        citation.strip()
+        citation = citation.strip()
         if citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation) - 1] + "."
         return citation 
@@ -247,6 +330,7 @@ class Book:
     def chicago(self):
         citation = ""
         if self.authors != []:
+            # Is this the same for journal citation?
             if len(self.authors) == 1:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
             elif len(self.authors) == 2:
@@ -259,7 +343,7 @@ class Book:
             citation += f"{self.publisher}, "
         if self.date_published != "":
             citation += f"{self.date_published}. "
-        citation.strip()
+        citation = citation.strip()
         if citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation) - 1] + "."
         return citation
@@ -330,6 +414,14 @@ def export_entries(sources, type):
     pdfkit.from_string(html, pdf_name) 
     
 
+def citation_format(citation):
+    if citation[len(citation) - 1] == ",":
+        citation = citation[0:len(citation) - 1] + "."
+    elif citation[len(citation) - 1].isalpha():
+        citation = citation[0:len(citation)] + "."
+
+def usage():
+    pass # Add usage information if user asks through CLI?
 
 def main():
     while True:
@@ -366,17 +458,21 @@ def main():
             date_published = input("Year of publication? (YYYY): ")
             if source == "b":
                 publisher = input("Publisher?: ")
+                location = input("Publication location?: ")
             if digital == "d":
                 url = input("URL/DOI? (address of website typed into webbrowser): ")
+            else:
+                url = ""
             if source == "j":
                 journal = input("Journal of publication?: ")
                 pages = input("Article pages? (page-page): ")
                 issue = input("Article issue? (no. only): ")
                 volume = input("Journal volume?: ")
+            accessed = input("Date accessed (MM-DD-YYYY): ")
             if source == "b":
-                sources.append(Book(title, authors, digital, date_published, publisher, url))
+                sources.append(Book(title, authors, digital, date_published, publisher, location, url, accessed))
             elif source == "j":
-                sources.append(Article(title, authors, digital, journal, volume, issue, pages, date_published))
+                sources.append(Article(title, authors, digital, journal, volume, issue, pages, date_published, url, accessed))
             print("Current sources added: ")
             for i in range(0, len(sources)):
                 sources[i].output()
@@ -387,12 +483,7 @@ def main():
         print("Entries successfully exported as biblio.pdf!")
 
 # Test entry for journal article
-source = Article("Use of library space and the library as place", [("Aabo", "Svanhild"), ("Audunson", "Ragnar")], "p", "Library & information science research", "34", "2", "138-149", "2012")
-sources = []
-sources.append(source)
-source = Article("The role and value of public libraries in the age of digital technologies", [("Aabo", "Svanhild")], "p", "Journal of librarianship and information science", "37", "2", "205-211", "2005")
-sources.append(source)
-export_entries(sources, "a") 
-
+if len(sys.argv) == 1:
+    main()
     
 
