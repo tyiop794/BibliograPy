@@ -21,9 +21,20 @@ import curses
 import pdfkit
 import tkinter as tk
 from tkinter import filedialog
+import info
 
 class Website:
-    def __init__(self):
+    def __init__(self, title, authors, container, issue, publisher, pages, url, accessed):
+        self.title = title
+        self.authors = authors
+        self.container = container
+        self.issue = issue
+        self.publisher = publisher
+        self.pages = pages
+        self.url = url
+        self.accessed = accessed
+    
+    def mla(self):
         pass
 
 
@@ -421,6 +432,7 @@ def citation_format(citation):
         citation = citation[0:len(citation)] + "."
 
 def usage():
+    print(info.usage_def)
     pass # Add usage information if user asks through CLI?
 
 def main():
@@ -455,7 +467,7 @@ def main():
                 lastname = input("Last name of author?: ")
                 firstname = input("First name of author?: ")
                 authors.append((lastname, firstname))
-            date_published = input("Year of publication? (YYYY): ")
+            date_published = input("Date of publication? (MM, DD, YYYY): ")
             if source == "b":
                 publisher = input("Publisher?: ")
                 location = input("Publication location?: ")
@@ -468,7 +480,7 @@ def main():
                 pages = input("Article pages? (page-page): ")
                 issue = input("Article issue? (no. only): ")
                 volume = input("Journal volume?: ")
-            accessed = input("Date accessed (MM-DD-YYYY): ")
+            accessed = input("Date accessed (MM, DD, YYYY): ")
             if source == "b":
                 sources.append(Book(title, authors, digital, date_published, publisher, location, url, accessed))
             elif source == "j":
@@ -485,5 +497,21 @@ def main():
 # Test entry for journal article
 if len(sys.argv) == 1:
     main()
-    
+if len(sys.argv) == 2 and (sys.argv[1] == "--usage" or sys.argv[1] == "--help"):
+    usage()
+elif len(sys.argv) == 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
+    print("Error: no source specified!")
+    usage()
+elif len(sys.argv) > 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
+    if sys.argv[2] == "a":
+        source = Article
+    elif sys.argv[2] == "w":
+        source = Website 
+    elif sys.argv[2] == "p":
+        source = Podcast
+    elif sys.argv[2] == "b":
+        source = Book
+if source == Book and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
+    print(info.usage_book)
+
 
