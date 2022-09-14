@@ -24,7 +24,7 @@ from tkinter import filedialog
 import info
 
 class Website:
-    def __init__(self, title, authors, container, issue, publisher, pages, url, accessed):
+    def __init__(self, title, authors, container, issue, publisher, date_published, pages, url, accessed):
         self.title = title
         self.authors = authors
         self.container = container
@@ -33,9 +33,31 @@ class Website:
         self.pages = pages
         self.url = url
         self.accessed = accessed
+        self.date_published = date_published
     
     def mla(self):
-        pass
+        citation = ""
+        if self.authors != []:
+            if len(self.authors) == 1:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
+        if self.title != "":
+            citation += f"\"{self.title}\""
+        if self.container != "":
+            citation += f"<em>{self.container}</em>, "
+        if self.publisher != "":
+            citation += f"{self.publisher}, "
+        if self.date_published != "":
+            citation += f"{self.date_published}, "
+        if self.url != "":
+            citation += f"{self.url}. "
+        if self.accessed != "":
+            citation += f"{self.accessed}" # Work on date formatting pls!
+        citation.strip()
+        if citation[len(citation) - 1].isalpha:
+            citation += "."
+        elif citation[len(citation) - 1] != ".":
+            citation = citation[0:len(citation)] + "."
+        return citation
 
 
 class Podcast:
