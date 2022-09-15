@@ -14,3 +14,7 @@ Interactive and scriptable bibliography creation tool written in Python.
 
 - Python (3.6 or later)
 - wkhtmltopdf
+
+# Important Note
+
+This intends to produce fully-compliant bibliographic entries, but I cannot guarantee that it will make no errors, especially in this early stage of development. If using for production work, check citations before use!

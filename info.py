@@ -1,5 +1,6 @@
 # Add option to create structured bibliography from file created by BibliograPy
 # or using other files from other bibliography utilities
+# Easily create file in format compatible with BibliograPy! (wanted feature)
 usage_def = """BibliograPy version 1.0:
 
 with no options: run in interactive mode
