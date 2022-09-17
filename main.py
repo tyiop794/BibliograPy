@@ -24,7 +24,18 @@ from tkinter import filedialog
 import info
 
 # Date formatting needs to be fixed across the board! (Super inconsistent, man!)
+"""
+Fixing date stuffs:
+Things to ask for:
+- year 
+- month
+- day
 
+Things to figure out:
+- formatting across different bibliographic styles
+"""
+
+# Ask for month, day, and year
 class Website:
     def __init__(self, title, authors, organization, container, issue, publisher, date_published, pages, url, accessed):
         self.title = title
@@ -37,6 +48,20 @@ class Website:
         self.url = url
         self.accessed = accessed
         self.date_published = date_published
+        if len(self.date_published) == 1:
+            self.year = self.date_published[0]
+        elif len(self.date_published) == 2:
+            self.month = self.date_published[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.year = self.date_published[1]
+        elif len(self.date_published) == 3:
+            self.month = self.date_published[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.day = self.date_published[1]
+            self.year = self.date_published[2]
+        else:
+            self.year = ""
+
     
     def mla(self):
         citation = ""
@@ -50,14 +75,31 @@ class Website:
             citation += f"<em>{self.container}</em>, "
         if self.publisher != "":
             citation += f"{self.publisher}, "
-        if self.date_published != "":
-            citation += f"{self.date_published}, "
+        if self.year != "":
+            citation += f"{self.year}, "
         if self.url != "":
             citation += f"{self.url}. "
         if self.accessed != "":
-            citation += f"{self.accessed}" # Work on date formatting pls!
+            accessed = self.accessed.split(",")
+            if len(accessed) == 1:
+                year = accessed[0]
+                citation += f"Accessed {year}. "
+            elif len(accessed) >= 2:
+                if len(accessed) == 3:
+                    month = accessed[0]
+                    day = accessed[1]
+                    year = accessed[2]
+                    month_obj = datetime.datetime.strptime(month, "%m")
+                    month_name = month_obj.strftime("%b")
+                    citation += f"Accessed {day} {month_name}. {year}. " 
+                else:
+                    month = accessed[0]
+                    year = accessed[1]
+                    month_obj = datetime.datetime.strptime(month, "%m")
+                    month_name = month_obj.strftime("%b")
+                    citation += f"Accessed {month_name}. {year}. " 
         citation.strip()
-        if citation[len(citation) - 1].isalpha:
+        if citation[len(citation) - 1].isalpha():
             citation += "."
         elif citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation)] + "."
@@ -69,10 +111,24 @@ class Website:
         if self.authors != []:
             if len(self.authors) == 1:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}. "
+            elif len(self.authors) == 2:
+                citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}., & {self.authors[1][0]}, {self.authors[1][1][0]}. "
+            else:
+                for i in range(0, len(self.authors)):
+                    if i != (len(self.authors) - 1):
+                        citation += f"{self.authors[i][0]}, {self.authors[i][1][0]}., "
+                    else:
+                        citation += f"& {self.authors[i][0]}, {self.authors[i][1][0]}. "
         elif self.organization != "":
             citation += f"{self.organization}. "
-        if self.date_published != "":
-            citation += f"({self.date_published}). "
+        if self.year != "":
+            try:
+                citation += f"({self.year}, {self.month} {self.day}). " 
+            except NameError:
+                try:
+                    citation += f"({self.year}, {self.month}). "
+                except NameError:
+                    citation += f"({self.year}). "
         else:
             citation += "(n.d.). "
         if self.title != "":
@@ -100,9 +156,15 @@ class Website:
             citation += f"{self.container}. "
         if self.publisher != "":
             citation += f"{self.publisher}. "
-        # Fix the date, yeesh!
-        if self.date_published != "":
-            citation += f"{self.date_published}. "
+        # Fix the date, yeesh! (Good here [i think])
+        if self.year != "":
+            try:
+                citation += f"{self.month} {self.day}, {self.year}. " 
+            except NameError:
+                try:
+                    citation += f"{self.month} {self.year}. "
+                except NameError:
+                    citation += f"{self.year}. "
         if self.url != "":
             citation += f"{self.url}. "
         citation.strip()
@@ -119,9 +181,23 @@ class Podcast:
         self.title = title
         self.publisher = publisher
         self.podcast = podcast
-        self.date = date
+        self.date = date.split()
         self.url = url
         self.duration = duration
+        if len(self.date) == 1:
+            self.year = self.date[0]
+        elif len(self.date) == 2:
+            self.month = self.date[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.year = self.date[1]
+        elif len(self.date) == 3:
+            self.month = self.date[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.day = self.date[1]
+            self.year = self.date[2]
+        else:
+            self.year = ""
+
 
     def mla(self):
         citation = ""
@@ -131,8 +207,14 @@ class Podcast:
             citation += f"<em>{self.podcast}</em> "
         if self.publisher != "":
             citation += f"from {self.publisher}, "
-        if self.date != "":
-            citation += f"{self.date}, " # Need to figure out formatting on this...
+        if self.year != "":
+            try:
+                citation += f"{self.day} {self.month} {self.year}, " 
+            except NameError:
+                try:
+                    citation += f"{self.month} {self.year}, "
+                except NameError:
+                    citation += f"{self.year}, "
         if self.url != "":
             citation += f"{self.url}. "
         citation = citation.strip()
@@ -146,8 +228,14 @@ class Podcast:
         if self.host != []:
             if len(self.host) == 1:
                 citation += f"{self.host[0]}, {self.host[1][0]}. "
-        if self.date != "":
-            citation += f"({self.date}). " # Also formatting for this
+        if self.year != "":
+            try:
+                citation += f"({self.year}, {self.month} {self.day}). " 
+            except NameError:
+                try:
+                    citation += f"({self.year}, {self.month}). "
+                except NameError:
+                    citation += f"({self.year}). "
         if self.title != "":
             citation += f"{self.title}. "
         if self.podcast != "":
@@ -174,8 +262,14 @@ class Podcast:
             citation += f"Produced by {self.publisher}. "
         if self.podcast != "":
             citation += f"<em>{self.podcast}</em>. "
-        if self.date != "":
-            citation += f"{self.date}. " # Formatting for this
+        if self.year != "":
+            try:
+                citation += f"{self.month} {self.day}, {self.year}. " 
+            except NameError:
+                try:
+                    citation += f"{self.month} {self.year}. "
+                except NameError:
+                    citation += f"{self.year}. "
         if self.duration != "":
             citation += f"Podcast, MP3 audio, {self.duration}, "
         if self.url != "":
@@ -508,7 +602,6 @@ def citation_format(citation):
 
 def usage():
     print(info.usage_def)
-    pass # Add usage information if user asks through CLI?
 
 def main():
     while True:
@@ -542,7 +635,7 @@ def main():
                 lastname = input("Last name of author?: ")
                 firstname = input("First name of author?: ")
                 authors.append((lastname, firstname))
-            date_published = input("Date of publication? (MM, DD, YYYY): ")
+            date_published = input("Date of publication? ((YYYY), (MM, YYYY) or (MM, DD, YYYY)): ")
             if source == "b":
                 publisher = input("Publisher?: ")
                 location = input("Publication location?: ")
