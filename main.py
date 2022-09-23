@@ -37,17 +37,16 @@ Things to figure out:
 
 # Ask for month, day, and year
 class Website:
-    def __init__(self, title, authors, organization, container, issue, publisher, date_published, pages, url, accessed):
+    def __init__(self, title, authors, organization, container, date_published, url, accessed):
         self.title = title
         self.authors = authors
+        self.authors = self.authors.split(",")
         self.organization = organization
         self.container = container
-        self.issue = issue
-        self.publisher = publisher
-        self.pages = pages
         self.url = url
         self.accessed = accessed
         self.date_published = date_published
+        self.date_published = self.date_published.split(",")
         if len(self.date_published) == 1:
             self.year = self.date_published[0]
         elif len(self.date_published) == 2:
@@ -119,8 +118,8 @@ class Website:
                         citation += f"{self.authors[i][0]}, {self.authors[i][1][0]}., "
                     else:
                         citation += f"& {self.authors[i][0]}, {self.authors[i][1][0]}. "
-        elif self.organization != "":
-            citation += f"{self.organization}. "
+        elif self.publisher != "":
+            citation += f"{self.publisher}. "
         if self.year != "":
             try:
                 citation += f"({self.year}, {self.month} {self.day}). " 
@@ -173,6 +172,43 @@ class Website:
         elif citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation) - 1] + "."
         return citation
+
+    def cli_ask(self):
+        """
+        self.title = title
+        self.authors = authors
+        self.organization = organization
+        self.container = container
+        self.issue = issue
+        self.publisher = publisher
+        self.pages = pages
+        self.url = url
+        self.accessed = accessed
+        self.date_published = date_published
+        if len(self.date_published) == 1:
+            self.year = self.date_published[0]
+        elif len(self.date_published) == 2:
+            self.month = self.date_published[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.year = self.date_published[1]
+        elif len(self.date_published) == 3:
+            self.month = self.date_published[0]
+            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
+            self.day = self.date_published[1]
+            self.year = self.date_published[2]
+        else:
+            self.year = ""
+        """
+        self.title = input("Website article title?: ")
+        self.authors = input("Authors? (First and last name; separate each by comma): ")
+        self.container = input("Website name?: ")
+        self.publisher = input("Name of publisher?: ")
+        self.url = input("Website URL?: ")
+        self.accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+        self.date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+
+        
+
 
 
 class Podcast:
@@ -586,6 +622,10 @@ def export_entries(sources, type):
         for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].apa()}</p>\n'
         html += "</body>\n</html>"
+    elif type == "c":
+        for i in range(0, len(sources)):
+            html += f'<p class="p1">{sources[i].chicago()}</p>\n'
+        html += "</body>\n</html>"
     #file = open("biblio.html", "w") 
     #file.write(html)
     #file.close()
@@ -605,6 +645,8 @@ def usage():
 
 def main():
     while True:
+        # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
+        # Podcast: 
         sources = []
         print("Welcome to BibliograPy!")
         biblio = ""
@@ -619,6 +661,7 @@ def main():
             authors = []
             source = input("Type of source (j for scholarly article, b for book, a for audio/podcast): ")
             if source == "j":
+            # def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
                 digital = input("Physical or digital (p for physical, d for digital): ")
             title = input("Title of work?: ")
             try:
