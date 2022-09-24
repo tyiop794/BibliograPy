@@ -14,6 +14,7 @@ Features:
  - try looking up unknown information about source and filling in missing bits in citation
 
 """
+from re import S
 import sys
 import os
 import datetime
@@ -37,11 +38,15 @@ Things to figure out:
 
 # Ask for month, day, and year
 class Website:
-    def __init__(self, title, authors, organization, container, date_published, url, accessed):
+    def __init__(self, title, authors, container, date_published, url, accessed):
         self.title = title
         self.authors = authors
         self.authors = self.authors.split(",")
-        self.organization = organization
+        array = []
+        for i in range(0, len(self.authors)):
+            author_split = self.authors[i].split()
+            array.append((author_split[1], author_split[0]))
+        self.authors = array
         self.container = container
         self.url = url
         self.accessed = accessed
@@ -173,39 +178,15 @@ class Website:
             citation = citation[0:len(citation) - 1] + "."
         return citation
 
-    def cli_ask(self):
-        """
-        self.title = title
-        self.authors = authors
-        self.organization = organization
-        self.container = container
-        self.issue = issue
-        self.publisher = publisher
-        self.pages = pages
-        self.url = url
-        self.accessed = accessed
-        self.date_published = date_published
-        if len(self.date_published) == 1:
-            self.year = self.date_published[0]
-        elif len(self.date_published) == 2:
-            self.month = self.date_published[0]
-            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
-            self.year = self.date_published[1]
-        elif len(self.date_published) == 3:
-            self.month = self.date_published[0]
-            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
-            self.day = self.date_published[1]
-            self.year = self.date_published[2]
-        else:
-            self.year = ""
-        """
-        self.title = input("Website article title?: ")
-        self.authors = input("Authors? (First and last name; separate each by comma): ")
-        self.container = input("Website name?: ")
-        self.publisher = input("Name of publisher?: ")
-        self.url = input("Website URL?: ")
-        self.accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
-        self.date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+def web_ask(sources):
+    title = input("Website article title?: ")
+    authors = input("Authors? (First and last name; separate each full name by comma): ")
+    container = input("Website name?: ")
+    url = input("Website URL?: ")
+    accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+    date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+    sources.append(Website(title, authors, container, date_published, url, accessed))
+
 
         
 
@@ -217,7 +198,7 @@ class Podcast:
         self.title = title
         self.publisher = publisher
         self.podcast = podcast
-        self.date = date.split()
+        self.date = date.split(",")
         self.url = url
         self.duration = duration
         if len(self.date) == 1:
@@ -316,6 +297,19 @@ class Podcast:
         elif citation[len(citation) - 1] != ".":
             citation = citation[0:len(citation) - 1] + "."
         return citation
+
+def podcast_ask(sources):
+    title = input("Episode name?: ")
+    host = input("Host?: ")
+    publisher = input("Publisher?: ")
+    podcast = input("Title of podcast?: ")
+    date = input("Date of release (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+    url = input("URL?: ")
+    duration = input("Duration? (H:M:S): ")
+    sources.append(Podcast(title, host, publisher, podcast, date, url , duration))
+
+
+
          
         
         
@@ -333,7 +327,7 @@ class Article:
         self.date_published = date_published
         self.url = url
         self.accessed = accessed
-    
+
     def mla(self):
         citation = ""
         if self.authors != []:
@@ -471,6 +465,38 @@ class Article:
         if self.digital == "d":
             print("URL/DOI: " + self.url)
 
+    def cli_ask(self):
+        """
+        self.title = title
+        self.authors = authors
+        self.digital = digital
+        self.journal = journal
+        self.volume = volume
+        self.issue = issue
+        self.pages = pages
+        self.date_published = date_published
+        self.url = url
+        self.accessed = accessed
+        """
+        self.title = input("Article title?: ")
+        self.authors = input("Authors (Full names split by comma; if known, order by importance): ")
+        self.journal = input("Journal title?: ")
+        self.volume = input("Volume?: ")
+        self.issue = input("Issue?: ")
+        self.pages = input("Page numbers? (first-last): ")
+        self.date_published = input("Date published (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+        while True:
+            self.digital = input("Physical (p) or digital (d)?: ")
+            if self.digital != "p" and self.digital != "d":
+                print("Invalid input! Asking again!")
+            else:
+                break
+        if self.digital == "d":
+            self.url = input("URL/DOI?: ")
+        else:
+            self.url = "" 
+         
+    
 
 class Book:
     def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
@@ -526,6 +552,7 @@ class Book:
             elif len(self.authors) == 2:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}., & {self.authors[1][0]}, {self.authors[1][1][0]}. "
             elif len(self.authors) > 2 and len(self.authors) <= 20:
+                # Finish writing this!!!!
                 print("Placeholder boi")
                 print("More than two authors oh dear")
                 for i in range(0, len(self.authors)):
