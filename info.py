@@ -31,17 +31,17 @@ def __init__(self, title, authors, date_published, publisher, digital, publicati
 """
 usage_book = """Book source options:
 (using all options not necessary)
--t, --title: title of book
--a, --authors: list of author or authors in (Last Name, First Name) style
--d, --date: Date published 
-   -y, --year: Year
-   -m, --month: Month
-   -d, --day: Day
+(surround info specified with quotes)
+-t, --title: title of book in quotes (i.e. "Nineteen Eighty-Four")
+-a, --authors: list of author or authors (First name and last name; full names split by commas)
+(ex. "John Doe, Johnny Appleseed")
+-d, --date: Date published (MM, DD, YYYY; MM, YYYY; or YYYY)
 -u, --url: URL 
-   -a, --accessed: date accessed
-       -y, --year: Year
-       -m, --month: Month
-       -d, --day: Day
+   -a, --accessed: date accessed (MM, DD, YYYY; MM, YYYY; or YYYY)
 -l, --publisher-location: location of publisher
 """
+
+usage_article = ""
+usage_podcast = ""
+usage_website = ""
 
