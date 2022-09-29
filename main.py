@@ -12,6 +12,8 @@ Features:
    such as MLA 8th edition) (might be a bit tricky)
  - create a GUI or interactive / easy-to-use TUI using tkinter or curses (that's a maybe?)
  - try looking up unknown information about source and filling in missing bits in citation
+ - provide a reference for in-text citations of specific source (provide option for reference; can be 
+ easily disabled)
 
 """
 import sys
@@ -23,9 +25,9 @@ import tkinter as tk
 from tkinter import filedialog
 import info
 from website import Website, web_ask
-from podcast import Podcast, podcast_ask
-from article import Article, article_ask
-from book import Book, book_ask
+from podcast import Podcast, podcast_ask 
+from article import Article, article_ask 
+from book import Book, book_ask 
 
 # Date formatting needs to be fixed across the board! (Super inconsistent, man!)
 """
@@ -79,12 +81,6 @@ def export_entries(sources, type):
     pdfkit.from_string(html, pdf_name) 
     return pdf_name
     
-
-def citation_format(citation):
-    if citation[len(citation) - 1] == ",":
-        citation = citation[0:len(citation) - 1] + "."
-    elif citation[len(citation) - 1].isalpha():
-        citation = citation[0:len(citation)] + "."
 
 def usage():
     print(info.usage_def)
@@ -170,12 +166,34 @@ elif len(sys.argv) > 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
         source = 3 
 if source == 3 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
     print(info.usage_book)
+    exit(0)
 elif source == 0 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
     print(info.usage_article)
+    exit(0)
 elif source == 1 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
     print(info.usage_website)
+    exit(0)
 elif source == 2 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
     print(info.usage_podcast)
+    exit(0)
+
+if source == 3:
+    for i in range(0, len(sys.argv)):
+        if sys.argv[i] == "-t":
+            if i == len(sys.argv) - 1 or sys.argv[i + 1][0] == "-":
+                print("Error: No title specified!")
+                exit(1)
+            elif sys.argv[i + 1][0] == "\"" and sys.argv[i + 1][len(sys.argv[i + 1]) - 1] == "\"":
+                title = sys.argv[i + 1]
+            else:
+                print("Invalid title! Did you surround title with quotes?")
+        elif sys.argv[i] == "-a":
+            if i == len(sys.argv) - 1:
+                print("Error! No authors specified!")
+                exit(1)
+
+
+
 
 
 

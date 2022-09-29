@@ -1,33 +1,31 @@
-from datetime import datetime
+from other_funcs import author_split, date_fix, citation_format
 class Website:
-    def __init__(self, title, authors, container, date_published, url, accessed):
+    def __init__(self, title, authors, container, date_published, url, accessed, publisher):
         self.title = title
-        self.authors = authors
-        self.authors = self.authors.split(",")
-        array = []
-        for i in range(0, len(self.authors)):
-            author_split = self.authors[i].split()
-            array.append((author_split[1], author_split[0]))
-        self.authors = array
+        self.authors = author_split(authors)
         self.container = container
         self.url = url
-        self.accessed = accessed
-        self.date_published = date_published
-        self.date_published = self.date_published.split(",")
-        if len(self.date_published) == 1:
-            self.year = self.date_published[0]
-        elif len(self.date_published) == 2:
-            self.month = self.date_published[0]
-            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
-            self.year = self.date_published[1]
-        elif len(self.date_published) == 3:
-            self.month = self.date_published[0]
-            self.month = datetime.datetime.strptime(self.month, "%m").strftime("%b")
-            self.day = self.date_published[1]
-            self.year = self.date_published[2]
+        self.accessed = date_fix(accessed)
+        if len(accessed) == 3:
+            self.ac_month = accessed[0]
+            self.ac_day = accessed[1]
+            self.ac_year = accessed[2]
+        elif len(accessed) == 2:
+            self.ac_month = accessed[0]
+            self.ac_year = accessed[1]
         else:
-            self.year = ""
-
+            self.ac_year = accessed[0]
+        self.date_published = date_fix(date_published)
+        self.publisher = publisher
+        if len(date_published) == 3:
+            self.month = date_published[0]
+            self.day = date_published[1]
+            self.year = date_published[2]
+        elif len(date_published) == 2:
+            self.month = date_published[0]
+            self.year = date_published[1]
+        else:
+            self.year = date_published[0]
     
     def mla(self):
         citation = ""
@@ -43,32 +41,28 @@ class Website:
             citation += f"{self.publisher}, "
         if self.year != "":
             citation += f"{self.year}, "
+        if self.year != "":
+            try:
+                citation += f"({self.year}, {self.month} {self.day}). " 
+            except NameError:
+                try:
+                    citation += f"({self.year}, {self.month}). "
+                except NameError:
+                    citation += f"({self.year}). "
+        else:
+            citation += "(n.d.). "
         if self.url != "":
             citation += f"{self.url}. "
-        if self.accessed != "":
-            accessed = self.accessed.split(",")
-            if len(accessed) == 1:
-                year = accessed[0]
-                citation += f"Accessed {year}. "
-            elif len(accessed) >= 2:
-                if len(accessed) == 3:
-                    month = accessed[0]
-                    day = accessed[1]
-                    year = accessed[2]
-                    month_obj = datetime.datetime.strptime(month, "%m")
-                    month_name = month_obj.strftime("%b")
-                    citation += f"Accessed {day} {month_name}. {year}. " 
-                else:
-                    month = accessed[0]
-                    year = accessed[1]
-                    month_obj = datetime.datetime.strptime(month, "%m")
-                    month_name = month_obj.strftime("%b")
-                    citation += f"Accessed {month_name}. {year}. " 
+        if self.ac_year != "":
+            try:
+                citation += f"Accessed {self.ac_day} {self.ac_month}. {self.ac_year}. "
+            except NameError:
+                try:
+                    citation += f"Accessed {self.ac_month}. {self.ac_year}. "
+                except NameError:
+                    citation += f"Accessed {self.ac_year}. "
         citation.strip()
-        if citation[len(citation) - 1].isalpha():
-            citation += "."
-        elif citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation)] + "."
+        citation = citation_format(citation)
         return citation
 
     def apa(self):
@@ -106,9 +100,7 @@ class Website:
         if self.url != "":
             citation += f"from {self.url} "
         citation.strip()
-        if citation[len(citation) - 1] == ",":
-            citation = citation[0:len(citation) - 1] + "."
-        return citation
+        citation = citation_format(citation)
 
     def chicago(self):
         citation = ""
@@ -134,17 +126,14 @@ class Website:
         if self.url != "":
             citation += f"{self.url}. "
         citation.strip()
-        if citation[len(citation) - 1].isalpha():
-            citation += "."
-        elif citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
-        return citation
+        citation = citation_format(citation)
 
 def web_ask(sources):
     title = input("Website article title?: ")
     authors = input("Authors? (First and last name; separate each full name by comma): ")
     container = input("Website name?: ")
+    publisher = input("Publisher?: ")
     url = input("Website URL?: ")
     accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
     date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
-    sources.append(Website(title, authors, container, date_published, url, accessed))
+    sources.append(Website(title, authors, container, date_published, url, accessed, publisher))

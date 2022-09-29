@@ -1,4 +1,4 @@
-from other_funcs import date_fix, author_split
+from other_funcs import date_fix, author_split, citation_format
 from datetime import datetime
 class Book:
     def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
@@ -8,17 +8,33 @@ class Book:
         self.digital = digital
         self.url = url
         self.publication_place = publication_place
-        self.date_published = date_fix(date_published)
-        if len(date_published) == 3:
-            self.month = date_published[0]
-            self.day = date_published[1]
-            self.year = date_published[2]
-        elif len(date_published) == 2:
-            self.month = date_published[0]
-            self.year = date_published[1]
+        self.date_published = date_published
+        newdate = date_fix(date_published)
+        print(newdate)
+        if len(newdate) == 3:
+            self.month = newdate[0]
+            self.day = newdate[1]
+            self.year = newdate[2]
+        elif len(newdate) == 2:
+            self.month = newdate[0]
+            self.year = newdate[1]
         else:
-            self.year = date_published[2]
-        self.accessed = date_fix(accessed)
+            self.year = newdate[0]
+        print(self.year)
+        self.accessed = accessed
+        new_accessed = date_fix(accessed)
+        try:
+            if len(new_accessed) == 3:
+                self.ac_month = newdate[0]
+                self.ac_day = newdate[1]
+                self.ac_year = newdate[2]
+            elif len(new_accessed) == 2:
+                self.ac_month = newdate[0]
+                self.ac_year = newdate[1]
+            else:
+                self.ac_year = newdate[0]
+        except IndexError:
+            self.ac_year = ""
 
     def mla(self):
         citation = ""
@@ -37,23 +53,10 @@ class Book:
         if self.publisher != "":
             citation += f"{self.publisher}, "
         if self.year != "":
-            citation += f"{self.year}, "
+            citation += f"{self.year}. "
         citation = citation.strip()
-        new_citation = ""
-        cnt = 0
-        for i in range(0, len(citation)):
-            new_citation += citation[i]
-            """
-            if i == 90:
-                new_citation += "\n     " 
-                cnt += 1
-            elif i == (90 + (75 * cnt)):
-                new_citation += "     "
-                cnt += 1
-            """
-        if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0:len(new_citation) - 1] + "."
-        return new_citation
+        citation = citation_format(citation)
+        return citation
     
     def apa(self):
         citation = ""

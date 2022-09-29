@@ -1,4 +1,4 @@
-from other_funcs import author_split, date_fix
+from other_funcs import author_split, date_fix, citation_format
 class Podcast:
     def __init__(self, title, host, publisher, podcast, date, url, duration):
         self.host = host
