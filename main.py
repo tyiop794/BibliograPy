@@ -22,6 +22,7 @@ import datetime
 import curses
 import pdfkit
 import tkinter as tk
+import time
 from tkinter import filedialog
 import info
 from website import Website, web_ask
@@ -86,66 +87,111 @@ def usage():
     print(info.usage_def)
 
 def main():
+    s=" "
     while True:
         # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
         # Podcast: 
         sources = []
         print("Welcome to BibliograPy!")
+        print(s) 
+        time.sleep(3)
         biblio = ""
         while biblio not in ["m", "a", "c", "i"]:
             biblio = input("Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: ")
             if biblio not in ["m", "a", "c", "i"]:
                 print("Not possible! Asking again!")
         print("For each entry type in information from the source you are trying to cite")
+        print(s) 
+        time.sleep(3)
         print("(or leave blank if information is unknown)")
         print()
         while True:
             authors = []
             source = input("Type of source (j for scholarly article, b for book, a for audio/podcast): ")
+            print(s) 
+            time.sleep(3)
             if source == "j":
             # def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
                 digital = input("Physical or digital (p for physical, d for digital): ")
+                print(s) 
+                time.sleep(3)
             title = input("Title of work?: ")
+            print(s) 
+            time.sleep(3)
             try:
                 author_no = int(input("Number of authors (default is 1): "))
             except ValueError:
                 author_no = 1
             print("Authors' names should be listed in order they appear on source!: ")
+            print(s) 
+            time.sleep(3)
             if author_no > 1:
                 for i in range(0, author_no):
                     lastname = input(f"Last name of author {i + 1}: ")
+                    print(s) 
+                    time.sleep(3)
                     firstname = input(f"First name of author {i + 1}: ")
+                    print(s) 
+                    time.sleep(3)
                     authors.append((lastname, firstname))
             else:
                 lastname = input("Last name of author?: ")
+                print(s) 
+                time.sleep(3)
                 firstname = input("First name of author?: ")
+                print(s) 
+                time.sleep(3)
                 authors.append((lastname, firstname))
             date_published = input("Date of publication? ((YYYY), (MM, YYYY) or (MM, DD, YYYY)): ")
+            print(s) 
+            time.sleep(3)
             if source == "b":
                 publisher = input("Publisher?: ")
+                print(s) 
+                time.sleep(3)
                 location = input("Publication location?: ")
+                print(s) 
+                time.sleep(3)
             if digital == "d":
                 url = input("URL/DOI? (address of website typed into webbrowser): ")
+                print(s) 
+                time.sleep(3)
             else:
                 url = ""
             if source == "j":
                 journal = input("Journal of publication?: ")
+                print(s) 
+                time.sleep(3)
                 pages = input("Article pages? (page-page): ")
+                print(s) 
+                time.sleep(3)
                 issue = input("Article issue? (no. only): ")
+                print(s) 
+                time.sleep(3)
                 volume = input("Journal volume?: ")
+                print(s) 
+                time.sleep(3)
             accessed = input("Date accessed (MM, DD, YYYY): ")
+            print(s) 
+            time.sleep(3)
             if source == "b":
                 sources.append(Book(title, authors, digital, date_published, publisher, location, url, accessed))
             elif source == "j":
                 sources.append(Article(title, authors, digital, journal, volume, issue, pages, date_published, url, accessed))
             print("Current sources added: ")
+            print(s) 
+            time.sleep(3)
             for i in range(0, len(sources)):
                 sources[i].output()
             source_add = input("Add another source? (Y/n): ")
+            print(s) 
+            time.sleep(3)
             if source_add == "n":
                 break
         pdf_name = export_entries(sources, biblio) 
         print(f"Entries successfully exported as {pdf_name}!")
+        print(s) 
+        time.sleep(3)
 
 # Test entry for journal article
 if len(sys.argv) == 1:
@@ -154,6 +200,8 @@ if len(sys.argv) == 2 and (sys.argv[1] == "--usage" or sys.argv[1] == "--help"):
     usage()
 elif len(sys.argv) == 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
     print("Error: no source specified!")
+    print(s) 
+    time.sleep(3)
     usage()
 elif len(sys.argv) > 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
     if sys.argv[2] == "a":
@@ -182,14 +230,20 @@ if source == 3:
         if sys.argv[i] == "-t":
             if i == len(sys.argv) - 1 or sys.argv[i + 1][0] == "-":
                 print("Error: No title specified!")
+                print(s) 
+                time.sleep(3)
                 exit(1)
             elif sys.argv[i + 1][0] == "\"" and sys.argv[i + 1][len(sys.argv[i + 1]) - 1] == "\"":
                 title = sys.argv[i + 1]
             else:
                 print("Invalid title! Did you surround title with quotes?")
+                print(s) 
+                time.sleep(3)
         elif sys.argv[i] == "-a":
             if i == len(sys.argv) - 1:
                 print("Error! No authors specified!")
+                print(s) 
+                time.sleep(3)
                 exit(1)
 
 
