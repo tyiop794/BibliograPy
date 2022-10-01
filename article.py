@@ -3,15 +3,13 @@ class Article:
     def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
         self.title = title
         self.authors = author_split(authors)
-        print()
         self.digital = digital
         self.journal = journal
         self.volume = volume
         self.issue = issue
         self.pages = pages
-        self.date_published = date_published;
+        self.date_published = date_published
         newdate = date_fix(date_published)
-        print(newdate)
         if len(newdate) == 3:
             self.month = newdate[0]
             self.day = newdate[1]
@@ -152,7 +150,7 @@ class Article:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0])
         elif len(self.authors) == 2:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0] + " and "
-            + self.authors[1][1] + self.authors[1][0])
+            + self.authors[1][1] + " " + self.authors[1][0])
         else:
             print("Author(s): ", end='')
             for i in range(0, len(self.authors)):
