@@ -86,66 +86,38 @@ def usage():
     print(info.usage_def)
 
 def main():
+    # Make sure to test this!!!
+    # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
+    # Podcast: 
+    sources = []
+    print("Welcome to BibliograPy!")
+    biblio = ""
+    while biblio not in ["m", "a", "c", "i"]:
+        biblio = input("Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: ")
+        if biblio not in ["m", "a", "c", "i"]:
+            print("Not possible! Asking again!")
+    print("For each entry type in information from the source you are trying to cite")
+    print("(or leave blank if information is unknown)")
+    print()
     while True:
-        # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
-        # Podcast: 
-        sources = []
-        print("Welcome to BibliograPy!")
-        biblio = ""
-        while biblio not in ["m", "a", "c", "i"]:
-            biblio = input("Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: ")
-            if biblio not in ["m", "a", "c", "i"]:
-                print("Not possible! Asking again!")
-        print("For each entry type in information from the source you are trying to cite")
-        print("(or leave blank if information is unknown)")
-        print()
-        while True:
-            authors = []
-            source = input("Type of source (j for scholarly article, b for book, a for audio/podcast): ")
-            if source == "j":
-            # def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
-                digital = input("Physical or digital (p for physical, d for digital): ")
-            title = input("Title of work?: ")
-            try:
-                author_no = int(input("Number of authors (default is 1): "))
-            except ValueError:
-                author_no = 1
-            print("Authors' names should be listed in order they appear on source!: ")
-            if author_no > 1:
-                for i in range(0, author_no):
-                    lastname = input(f"Last name of author {i + 1}: ")
-                    firstname = input(f"First name of author {i + 1}: ")
-                    authors.append((lastname, firstname))
-            else:
-                lastname = input("Last name of author?: ")
-                firstname = input("First name of author?: ")
-                authors.append((lastname, firstname))
-            date_published = input("Date of publication? ((YYYY), (MM, YYYY) or (MM, DD, YYYY)): ")
-            if source == "b":
-                publisher = input("Publisher?: ")
-                location = input("Publication location?: ")
-            if digital == "d":
-                url = input("URL/DOI? (address of website typed into webbrowser): ")
-            else:
-                url = ""
-            if source == "j":
-                journal = input("Journal of publication?: ")
-                pages = input("Article pages? (page-page): ")
-                issue = input("Article issue? (no. only): ")
-                volume = input("Journal volume?: ")
-            accessed = input("Date accessed (MM, DD, YYYY): ")
-            if source == "b":
-                sources.append(Book(title, authors, digital, date_published, publisher, location, url, accessed))
-            elif source == "j":
-                sources.append(Article(title, authors, digital, journal, volume, issue, pages, date_published, url, accessed))
-            print("Current sources added: ")
-            for i in range(0, len(sources)):
-                sources[i].output()
-            source_add = input("Add another source? (Y/n): ")
-            if source_add == "n":
-                break
-        pdf_name = export_entries(sources, biblio) 
-        print(f"Entries successfully exported as {pdf_name}!")
+        authors = []
+        source = input("Type of source (j for scholarly article, b for book, a for audio/podcast, w for website): ")
+        if source == "j":
+            article_ask(sources)
+        elif source == "b":
+            book_ask(sources)
+        elif source == "a":
+            podcast_ask(sources)
+        elif source == "w":
+            web_ask(sources)
+        print("Current sources added: ")
+        for i in range(0, len(sources)):
+            sources[i].output()
+        source_add = input("Add another source? (Y/n): ")
+        if source_add == "n":
+            break
+    pdf_name = export_entries(sources, biblio) 
+    print(f"Entries successfully exported as {pdf_name}!")
 
 # Test entry for journal article
 if len(sys.argv) == 1:
