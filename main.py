@@ -122,6 +122,7 @@ def main():
 # Test entry for journal article
 if len(sys.argv) == 1:
     main()
+"""
 if len(sys.argv) == 2 and (sys.argv[1] == "--usage" or sys.argv[1] == "--help"):
     usage()
 elif len(sys.argv) == 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
@@ -163,7 +164,7 @@ if source == 3:
             if i == len(sys.argv) - 1:
                 print("Error! No authors specified!")
                 exit(1)
-
+"""
 
 
 
