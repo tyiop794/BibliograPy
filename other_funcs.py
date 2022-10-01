@@ -1,4 +1,5 @@
 from datetime import datetime
+s=" "
 def author_split(string):
     array = []
     authors = string.split(",")
@@ -9,6 +10,8 @@ def author_split(string):
 
 def date_fix(date):
     date = date.split(",")
+    print(s) 
+    time.sleep(1)
     print(date)
     if len(date) == 1:
         year = date[0]
@@ -23,6 +26,8 @@ def date_fix(date):
     elif len(date) == 3:
         month = date[0]
         month = datetime.strptime(month, "%m").strftime("%b")
+        print(s) 
+        time.sleep(1)
         print(month)
         day = date[1]
         year = date[2]
@@ -35,6 +40,8 @@ def date_fix(date):
         return newdate
 
 def citation_format(citation):
+    print(s) 
+    time.sleep(1)
     print(citation[len(citation) - 1])
     if citation[len(citation) - 1].isalpha():
         citation += "."
