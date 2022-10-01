@@ -226,4 +226,5 @@ def web_ask(sources):
     url = input("Website URL?: ")
     accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
     date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
+    print("Details of the website are below:")
     sources.append(Website(title, authors, container, date_published, url, accessed, publisher))
