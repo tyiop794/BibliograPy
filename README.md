@@ -14,6 +14,7 @@ Interactive and scriptable bibliography creation tool written in Python.
 
 - Python (3.6 or later)
 - wkhtmltopdf
+- pdfkit
 
 # Important Note
 
