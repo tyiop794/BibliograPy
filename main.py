@@ -28,6 +28,7 @@ from website import Website, web_ask
 from podcast import Podcast, podcast_ask
 from article import Article, article_ask
 from book import Book, book_ask
+from typing import List, Union
 
 # Date formatting needs to be fixed across the board! (Super inconsistent, man!)
 """
@@ -44,7 +45,7 @@ Things to figure out:
 # Ask for month, day, and year
 
 
-def export_entries(sources, type):
+def export_entries(sources, type) -> str:
     # Will export entries using html + css
     root = tk.Tk()
     root.withdraw()
@@ -83,11 +84,12 @@ def export_entries(sources, type):
     return pdf_name
 
 
-def usage():
+def usage() -> None:
+    """Print program usage help."""
     print(info.usage_def)
 
 
-def main():
+def main() -> None:
     # Make sure to test this!!!
     # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed):
     # Podcast:

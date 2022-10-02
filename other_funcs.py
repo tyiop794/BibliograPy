@@ -1,7 +1,8 @@
 from datetime import datetime
+from typing import List, Tuple
 
 
-def author_split(string):
+def author_split(string: str) -> List[Tuple[str, str]]:
     array = []
     authors = string.split(",")
     for i in range(0, len(authors)):
@@ -10,7 +11,7 @@ def author_split(string):
     return array
 
 
-def date_fix(date):
+def date_fix(date: str) -> List[str]:
     date = date.split(",")
     print(date)
     if len(date) == 1:
@@ -38,7 +39,7 @@ def date_fix(date):
         return newdate
 
 
-def citation_format(citation):
+def citation_format(citation: str) -> str:
     print(citation[len(citation) - 1])
     if citation[len(citation) - 1].isalpha():
         citation += "."

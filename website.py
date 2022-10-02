@@ -1,4 +1,4 @@
-from other_funcs import author_split, date_fix, citation_format
+from other_funcs import author_split, citation_format, date_fix
 
 
 class Website:
@@ -40,7 +40,8 @@ class Website:
         else:
             self.year = ""
 
-    def mla(self):
+    def mla(self) -> str:
+        """Builds citation string for MLA Style Citation."""
         citation = ""
         # Add multiple authors
         if self.authors != []:
@@ -78,7 +79,8 @@ class Website:
         citation = citation_format(citation)
         return citation
 
-    def apa(self):
+    def apa(self) -> str:
+        """Builds citation string for APA Style Citation."""
         citation = ""
         # Add multiple authors
         if self.authors != []:
@@ -116,7 +118,8 @@ class Website:
         citation = citation_format(citation)
         return citation
 
-    def chicago(self):
+    def chicago(self) -> str:
+        """Builds citation string for Chicago Style Citation."""
         citation = ""
         if self.authors == []:
             # Add multiple authors
@@ -144,6 +147,7 @@ class Website:
         return citation
 
     def output(self):
+        """Outputs user entered information."""
         """
         self.title = title
         if authors != "":
@@ -220,7 +224,8 @@ class Website:
                     print(f"{self.year}")
 
 
-def web_ask(sources):
+def web_ask(sources) -> None:
+    """Prompts for inputting information about a Web Article source."""
     title = input("Website article title?: ")
     authors = input(
         "Authors? (First and last name; separate each full name by comma): "

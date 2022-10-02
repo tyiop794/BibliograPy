@@ -1,5 +1,7 @@
-from other_funcs import date_fix, author_split, citation_format
 from datetime import datetime
+from typing import List
+
+from other_funcs import author_split, citation_format, date_fix
 
 
 class Book:
@@ -48,7 +50,8 @@ class Book:
         except IndexError:
             self.ac_year = ""
 
-    def mla(self):
+    def mla(self) -> str:
+        """Builds citation string for MLA Style Citation."""
         citation = ""
         if self.authors != []:
             authors = self.authors
@@ -70,7 +73,8 @@ class Book:
         citation = citation_format(citation)
         return citation
 
-    def apa(self):
+    def apa(self) -> str:
+        """Builds citation string for APA Style Citation."""
         citation = ""
         if self.authors != []:
             if len(self.authors) == 1:
@@ -96,7 +100,8 @@ class Book:
             citation = citation[0 : len(citation) - 1] + "."
         return citation
 
-    def chicago(self):
+    def chicago(self) -> str:
+        """Builds citation string for Chicago Style Citation."""
         citation = ""
         if self.authors != []:
             # Is this the same for journal citation?
@@ -118,6 +123,7 @@ class Book:
         return citation
 
     def output(self):
+        """Outputs user entered information."""
         """
         self.title = title
         self.authors = authors
@@ -157,7 +163,8 @@ class Book:
             print("URL/DOI: " + self.url)
 
 
-def book_ask(sources):
+def book_ask(sources: List) -> None:
+    """Prompts for inputting information about a Book source."""
     title = input("Title?: ")
     authors = input("Author(s)? (first and last name; each full name split by comma): ")
     date_published = input("Date published? (MM, DD, YYYY; MM, YYYY; or YYYY): ")

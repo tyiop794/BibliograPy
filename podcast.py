@@ -1,4 +1,4 @@
-from other_funcs import author_split, date_fix, citation_format
+from other_funcs import author_split, citation_format, date_fix
 
 
 class Podcast:
@@ -20,7 +20,8 @@ class Podcast:
         else:
             self.year = date[0]
 
-    def mla(self):
+    def mla(self) -> str:
+        """Builds citation string for MLA Style Citation."""
         citation = ""
         if self.title != "":
             citation += f'"{self.title}." '
@@ -44,7 +45,8 @@ class Podcast:
         elif citation[len(citation) - 1].isalpha():
             citation = citation[0 : len(citation)] + "."
 
-    def apa(self):
+    def apa(self) -> str:
+        """Builds citation string for APA Style Citation."""
         citation = ""
         if self.host != []:
             if len(self.host) == 1:
@@ -72,7 +74,8 @@ class Podcast:
             citation = citation[0 : len(citation) - 1] + "."
         return citation
 
-    def chicago(self):
+    def chicago(self) -> str:
+        """Builds citation string for Chicago Style Citation."""
         citation = ""
         if self.host != []:
             if len(self.host) == 1:
@@ -103,7 +106,8 @@ class Podcast:
         return citation
 
 
-def podcast_ask(sources):
+def podcast_ask(sources) -> None:
+    """Prompts for inputting information about a Podcast source."""
     title = input("Episode name?: ")
     host = input("Host?: ")
     publisher = input("Publisher?: ")

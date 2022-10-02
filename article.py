@@ -1,4 +1,4 @@
-from other_funcs import author_split, date_fix, citation_format
+from other_funcs import author_split, citation_format, date_fix
 
 
 class Article:
@@ -48,7 +48,8 @@ class Article:
         except IndexError:
             self.ac_year = ""
 
-    def mla(self):
+    def mla(self) -> str:
+        """Builds citation string for MLA Style Citation."""
         citation = ""
         if self.authors != []:
             if len(self.authors) == 1:
@@ -88,7 +89,8 @@ class Article:
             new_citation = new_citation[0 : len(new_citation) - 1] + "."
         return new_citation
 
-    def apa(self):
+    def apa(self) -> str:
+        """Builds citation string for APA Style Citation."""
         citation = ""
         if self.authors != []:
             if len(self.authors) == 1:
@@ -132,7 +134,8 @@ class Article:
             new_citation = new_citation[0 : len(new_citation) - 1] + "."
         return new_citation
 
-    def chicago(self):
+    def chicago(self) -> str:
+        """Builds citation string for Chicago Style Citation."""
         citation = ""
         if self.authors != []:
             if len(self.authors) == 1:
@@ -156,7 +159,8 @@ class Article:
             citation = citation[0 : len(citation) - 1] + "."
         return citation
 
-    def output(self):
+    def output(self) -> None:
+        """Outputs user entered information."""
         print("Title: " + self.title)
         if len(self.authors) == 1:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0])
@@ -192,7 +196,8 @@ class Article:
             print("URL/DOI: " + self.url)
 
 
-def article_ask(sources):
+def article_ask(sources) -> None:
+    """Prompts for inputting information about an Article source."""
     title = input("Article title?: ")
     authors = input(
         "Authors (Full names split by comma; if known, order by importance): "
