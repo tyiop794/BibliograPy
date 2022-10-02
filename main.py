@@ -25,9 +25,9 @@ import tkinter as tk
 from tkinter import filedialog
 import info
 from website import Website, web_ask
-from podcast import Podcast, podcast_ask 
-from article import Article, article_ask 
-from book import Book, book_ask 
+from podcast import Podcast, podcast_ask
+from article import Article, article_ask
+from book import Book, book_ask
 
 # Date formatting needs to be fixed across the board! (Super inconsistent, man!)
 """
@@ -42,12 +42,13 @@ Things to figure out:
 """
 
 # Ask for month, day, and year
-         
+
+
 def export_entries(sources, type):
     # Will export entries using html + css
     root = tk.Tk()
     root.withdraw()
-    html = '''
+    html = """
     <html>
     <head>
     <head>
@@ -60,9 +61,9 @@ def export_entries(sources, type):
     }
     </style>
     <body>
-    '''
+    """
     if type == "m":
-        for i in range(0, len(sources)): 
+        for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].mla()}</p>\n'
         html += "</body>\n</html>"
     elif type == "a":
@@ -73,27 +74,30 @@ def export_entries(sources, type):
         for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].chicago()}</p>\n'
         html += "</body>\n</html>"
-    #file = open("biblio.html", "w") 
-    #file.write(html)
-    #file.close()
+    # file = open("biblio.html", "w")
+    # file.write(html)
+    # file.close()
     print("Exporting as PDF:")
     pdf_name = filedialog.asksaveasfilename()
-    pdfkit.from_string(html, pdf_name) 
+    pdfkit.from_string(html, pdf_name)
     return pdf_name
-    
+
 
 def usage():
     print(info.usage_def)
 
+
 def main():
     # Make sure to test this!!!
-    # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
-    # Podcast: 
+    # Book: def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed):
+    # Podcast:
     sources = []
     print("Welcome to BibliograPy!")
     biblio = ""
     while biblio not in ["m", "a", "c", "i"]:
-        biblio = input("Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: ")
+        biblio = input(
+            "Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: "
+        )
         if biblio not in ["m", "a", "c", "i"]:
             print("Not possible! Asking again!")
     print("For each entry type in information from the source you are trying to cite")
@@ -101,7 +105,9 @@ def main():
     print()
     while True:
         authors = []
-        source = input("Type of source (j for scholarly article, b for book, a for audio/podcast, w for website): ")
+        source = input(
+            "Type of source (j for scholarly article, b for book, a for audio/podcast, w for website): "
+        )
         if source == "j":
             article_ask(sources)
         elif source == "b":
@@ -116,8 +122,9 @@ def main():
         source_add = input("Add another source? (Y/n): ")
         if source_add == "n":
             break
-    pdf_name = export_entries(sources, biblio) 
+    pdf_name = export_entries(sources, biblio)
     print(f"Entries successfully exported as {pdf_name}!")
+
 
 # Test entry for journal article
 if len(sys.argv) == 1:
@@ -165,8 +172,3 @@ if source == 3:
                 print("Error! No authors specified!")
                 exit(1)
 """
-
-
-
-
-

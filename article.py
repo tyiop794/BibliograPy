@@ -1,6 +1,20 @@
 from other_funcs import author_split, date_fix, citation_format
+
+
 class Article:
-    def __init__(self, title, authors, digital, journal, volume, issue, pages, date_published, url, accessed):
+    def __init__(
+        self,
+        title,
+        authors,
+        digital,
+        journal,
+        volume,
+        issue,
+        pages,
+        date_published,
+        url,
+        accessed,
+    ):
         self.title = title
         self.authors = author_split(authors)
         self.digital = digital
@@ -45,7 +59,7 @@ class Article:
                     citation += f"{self.authors[0][0]}, {self.authors[0][1]} and {self.authors[1][1]} {self.authors[1][0]}. "
                 else:
                     citation += f"{self.authors[1][0]}, {self.authors[1][1]} and {self.authors[0][1]} {self.authors[0][0]}. "
-        if self.title != "": 
+        if self.title != "":
             citation += f"{self.title}. "
         if self.journal != "":
             citation += f"<em>{self.journal}</em>, "
@@ -71,9 +85,9 @@ class Article:
                 cnt += 1
             """
         if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0:len(new_citation) - 1] + "."
+            new_citation = new_citation[0 : len(new_citation) - 1] + "."
         return new_citation
-            
+
     def apa(self):
         citation = ""
         if self.authors != []:
@@ -87,7 +101,7 @@ class Article:
                         citation += f"{self.authors[i][0]}, {self.authors[i][1][0]}., "
                     else:
                         citation += f"& {self.authors[i][0]}, {self.authors[i][1][0]}. "
-        if self.year != "": # Make sure formatting is right here!
+        if self.year != "":  # Make sure formatting is right here!
             citation += f"({self.year}). "
         if self.title != "":
             citation += f"{self.title}. "
@@ -115,7 +129,7 @@ class Article:
                 cnt += 1
             """
         if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0:len(new_citation) - 1] + "."
+            new_citation = new_citation[0 : len(new_citation) - 1] + "."
         return new_citation
 
     def chicago(self):
@@ -126,7 +140,7 @@ class Article:
             elif len(self.authors) == 2:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1]} and {self.authors[1][1]} {self.authors[1][0]}. "
         if self.title != "":
-            citation += f"\"{self.title}.\" "
+            citation += f'"{self.title}." '
         if self.journal != "":
             citation += f"<em>{self.journal}</em> "
         if self.volume != "":
@@ -139,25 +153,31 @@ class Article:
             citation += f"{self.pages}."
         citation = citation.strip()
         if citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         return citation
-        
-
 
     def output(self):
         print("Title: " + self.title)
         if len(self.authors) == 1:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0])
         elif len(self.authors) == 2:
-            print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0] + " and "
-            + self.authors[1][1] + " " + self.authors[1][0])
+            print(
+                "Author(s): "
+                + self.authors[0][1]
+                + " "
+                + self.authors[0][0]
+                + " and "
+                + self.authors[1][1]
+                + " "
+                + self.authors[1][0]
+            )
         else:
-            print("Author(s): ", end='')
+            print("Author(s): ", end="")
             for i in range(0, len(self.authors)):
                 if i == (len(self.authors) - 1):
                     print("and " + self.authors[i][1] + self.authors[i][0])
                 else:
-                    print(self.authors[i][1] + self.authors[i][0] + ", ", end='')
+                    print(self.authors[i][1] + self.authors[i][0] + ", ", end="")
         if self.digital == "p":
             digital = "No"
         elif self.digital == "d":
@@ -171,23 +191,39 @@ class Article:
         if self.digital == "d":
             print("URL/DOI: " + self.url)
 
+
 def article_ask(sources):
-        title = input("Article title?: ")
-        authors = input("Authors (Full names split by comma; if known, order by importance): ")
-        journal = input("Journal title?: ")
-        volume = input("Volume?: ")
-        issue = input("Issue?: ")
-        pages = input("Page numbers? (first-last): ")
-        date_published = input("Date published (MM, DD, YYYY; MM, YYYY; or YYYY): ")
-        date_accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY; or YYYY): ")
-        while True:
-            digital = input("Physical (p) or digital (d)?: ")
-            if digital != "p" and digital != "d":
-                print("Invalid input! Asking again!")
-            else:
-                break
-        if digital == "d":
-            url = input("URL/DOI?: ")
+    title = input("Article title?: ")
+    authors = input(
+        "Authors (Full names split by comma; if known, order by importance): "
+    )
+    journal = input("Journal title?: ")
+    volume = input("Volume?: ")
+    issue = input("Issue?: ")
+    pages = input("Page numbers? (first-last): ")
+    date_published = input("Date published (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+    date_accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+    while True:
+        digital = input("Physical (p) or digital (d)?: ")
+        if digital != "p" and digital != "d":
+            print("Invalid input! Asking again!")
         else:
-            url = "" 
-        sources.append(Article(title, authors, digital, journal, volume, issue, pages, date_published, url, date_accessed))
+            break
+    if digital == "d":
+        url = input("URL/DOI?: ")
+    else:
+        url = ""
+    sources.append(
+        Article(
+            title,
+            authors,
+            digital,
+            journal,
+            volume,
+            issue,
+            pages,
+            date_published,
+            url,
+            date_accessed,
+        )
+    )

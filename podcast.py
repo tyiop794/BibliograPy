@@ -1,4 +1,6 @@
 from other_funcs import author_split, date_fix, citation_format
+
+
 class Podcast:
     def __init__(self, title, host, publisher, podcast, date, url, duration):
         self.host = host
@@ -18,18 +20,17 @@ class Podcast:
         else:
             self.year = date[0]
 
-
     def mla(self):
         citation = ""
         if self.title != "":
-            citation += f"\"{self.title}.\" "
+            citation += f'"{self.title}." '
         if self.podcast != "":
             citation += f"<em>{self.podcast}</em> "
         if self.publisher != "":
             citation += f"from {self.publisher}, "
         if self.year != "":
             try:
-                citation += f"{self.day} {self.month} {self.year}, " 
+                citation += f"{self.day} {self.month} {self.year}, "
             except NameError:
                 try:
                     citation += f"{self.month} {self.year}, "
@@ -39,9 +40,9 @@ class Podcast:
             citation += f"{self.url}. "
         citation = citation.strip()
         if citation[len(citation) - 1] == ",":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         elif citation[len(citation) - 1].isalpha():
-            citation = citation[0:len(citation)] + "."
+            citation = citation[0 : len(citation)] + "."
 
     def apa(self):
         citation = ""
@@ -50,7 +51,7 @@ class Podcast:
                 citation += f"{self.host[0]}, {self.host[1][0]}. "
         if self.year != "":
             try:
-                citation += f"({self.year}, {self.month} {self.day}). " 
+                citation += f"({self.year}, {self.month} {self.day}). "
             except NameError:
                 try:
                     citation += f"({self.year}, {self.month}). "
@@ -68,9 +69,9 @@ class Podcast:
         if citation[len(citation) - 1].isalpha():
             citation += "."
         elif citation[len(citation) - 1] == ",":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         return citation
-    
+
     def chicago(self):
         citation = ""
         if self.host != []:
@@ -84,7 +85,7 @@ class Podcast:
             citation += f"<em>{self.podcast}</em>. "
         if self.year != "":
             try:
-                citation += f"{self.month} {self.day}, {self.year}. " 
+                citation += f"{self.month} {self.day}, {self.year}. "
             except NameError:
                 try:
                     citation += f"{self.month} {self.year}. "
@@ -98,8 +99,9 @@ class Podcast:
         if citation[len(citation) - 1].isalpha():
             citation += "."
         elif citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         return citation
+
 
 def podcast_ask(sources):
     title = input("Episode name?: ")
@@ -109,4 +111,4 @@ def podcast_ask(sources):
     date = input("Date of release (MM, DD, YYYY; MM, YYYY; or YYYY): ")
     url = input("URL?: ")
     duration = input("Duration? (H:M:S): ")
-    sources.append(Podcast(title, host, publisher, podcast, date, url , duration))
+    sources.append(Podcast(title, host, publisher, podcast, date, url, duration))

@@ -1,7 +1,19 @@
 from other_funcs import date_fix, author_split, citation_format
 from datetime import datetime
+
+
 class Book:
-    def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
+    def __init__(
+        self,
+        title,
+        authors,
+        date_published,
+        publisher,
+        digital,
+        publication_place,
+        url,
+        accessed,
+    ):
         self.title = title
         self.authors = author_split(authors)
         self.publisher = publisher
@@ -57,7 +69,7 @@ class Book:
         citation = citation.strip()
         citation = citation_format(citation)
         return citation
-    
+
     def apa(self):
         citation = ""
         if self.authors != []:
@@ -74,16 +86,16 @@ class Book:
         if self.date_published != "":
             citation += f"({self.date_published}). "
         if self.title != "":
-            citation += f"<em>{self.title}</em>. " 
+            citation += f"<em>{self.title}</em>. "
         if self.publisher != "":
             citation += f"{self.publisher}. "
         if self.digital == "d":
             citation += f"{self.url}"
         citation = citation.strip()
         if citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
-        return citation 
-    
+            citation = citation[0 : len(citation) - 1] + "."
+        return citation
+
     def chicago(self):
         citation = ""
         if self.authors != []:
@@ -102,7 +114,7 @@ class Book:
             citation += f"{self.date_published}. "
         citation = citation.strip()
         if citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         return citation
 
     def output(self):
@@ -118,16 +130,23 @@ class Book:
         if len(self.authors) == 1:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0])
         elif len(self.authors) == 2:
-            print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0] + " and "
-            + self.authors[1][1] + self.authors[1][0])
+            print(
+                "Author(s): "
+                + self.authors[0][1]
+                + " "
+                + self.authors[0][0]
+                + " and "
+                + self.authors[1][1]
+                + self.authors[1][0]
+            )
         else:
-            print("Authors: ", end='')
+            print("Authors: ", end="")
             for i in range(0, len(self.authors)):
                 if i == (len(self.authors) - 1):
                     print()
                     print("and " + self.authors[i][1] + self.authors[i][0])
                 else:
-                    print(self.authors[i][1] + self.authors[i][0] + ", ", end='')
+                    print(self.authors[i][1] + self.authors[i][0] + ", ", end="")
         print("Publisher: " + self.publisher)
         if self.digital == "d":
             digital = "Yes"
@@ -136,6 +155,7 @@ class Book:
         print("Digital: " + digital)
         if self.digital == "d":
             print("URL/DOI: " + self.url)
+
 
 def book_ask(sources):
     title = input("Title?: ")
@@ -154,4 +174,15 @@ def book_ask(sources):
         url = ""
     publication_place = input("Place of publication?: ")
     accessed = input("Date accessed (MM, DD, YYYY; MM, YYYY; or YYYY): ")
-    sources.append(Book(title, authors, date_published, publisher, digital, publication_place, url, accessed))
+    sources.append(
+        Book(
+            title,
+            authors,
+            date_published,
+            publisher,
+            digital,
+            publication_place,
+            url,
+            accessed,
+        )
+    )

@@ -1,6 +1,10 @@
 from other_funcs import author_split, date_fix, citation_format
+
+
 class Website:
-    def __init__(self, title, authors, container, date_published, url, accessed, publisher):
+    def __init__(
+        self, title, authors, container, date_published, url, accessed, publisher
+    ):
         self.title = title
         if authors != "":
             self.authors = author_split(authors)
@@ -35,7 +39,7 @@ class Website:
                 self.year = date_published[0]
         else:
             self.year = ""
-    
+
     def mla(self):
         citation = ""
         # Add multiple authors
@@ -43,7 +47,7 @@ class Website:
             if len(self.authors) == 1:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
         if self.title != "":
-            citation += f"\"{self.title}\""
+            citation += f'"{self.title}"'
         if self.container != "":
             citation += f"<em>{self.container}</em>, "
         if self.publisher != "":
@@ -52,7 +56,7 @@ class Website:
             citation += f"{self.year}, "
         if self.year != "":
             try:
-                citation += f"({self.year}, {self.month} {self.day}). " 
+                citation += f"({self.year}, {self.month} {self.day}). "
             except AttributeError:
                 try:
                     citation += f"({self.year}, {self.month}). "
@@ -92,7 +96,7 @@ class Website:
             citation += f"{self.publisher}. "
         if self.year != "":
             try:
-                citation += f"({self.year}, {self.month} {self.day}). " 
+                citation += f"({self.year}, {self.month} {self.day}). "
             except AttributeError:
                 try:
                     citation += f"({self.year}, {self.month}). "
@@ -119,7 +123,7 @@ class Website:
             if len(self.authors) == 1:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
         if self.title != "":
-            citation += f"\"{self.title}.\" "
+            citation += f'"{self.title}." '
         if self.container != "":
             citation += f"{self.container}. "
         if self.publisher != "":
@@ -127,7 +131,7 @@ class Website:
         # Fix the date, yeesh! (Good here [i think])
         if self.year != "":
             try:
-                citation += f"{self.month} {self.day}, {self.year}. " 
+                citation += f"{self.month} {self.day}, {self.year}. "
             except AttributeError:
                 try:
                     citation += f"{self.month} {self.year}. "
@@ -138,7 +142,7 @@ class Website:
         citation = citation.strip()
         citation = citation_format(citation)
         return citation
-    
+
     def output(self):
         """
         self.title = title
@@ -215,15 +219,17 @@ class Website:
                 except AttributeError:
                     print(f"{self.year}")
 
-        
-
 
 def web_ask(sources):
     title = input("Website article title?: ")
-    authors = input("Authors? (First and last name; separate each full name by comma): ")
+    authors = input(
+        "Authors? (First and last name; separate each full name by comma): "
+    )
     container = input("Website name?: ")
     publisher = input("Publisher?: ")
     url = input("Website URL?: ")
     accessed = input("Date accessed? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
     date_published = input("Date published? (MM, DD, YYYY; MM, YYYY;, or YYYY): ")
-    sources.append(Website(title, authors, container, date_published, url, accessed, publisher))
+    sources.append(
+        Website(title, authors, container, date_published, url, accessed, publisher)
+    )
