@@ -28,6 +28,18 @@ journal = Article(
     "",
     "",
 )
+
+website = Website(
+    "Book bans and 'gag orders': the US schools crackdown no one asked for",
+    "Adam Gabbatt",
+    "The Guardian",
+    "2, 21, 2022",
+    "https://www.theguardian.com/world/2022/feb/21/books-bans-gag-orders-suppress-discussion-racism-lgbtq-us-schools?CMP=Share_AndroidApp_Other",
+    "4, 20, 2022",
+    ""
+)
 journal.output()
 sources.append(journal)
+website.output()
+sources.append(website)
 export_entries(sources, "a")
