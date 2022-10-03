@@ -81,12 +81,12 @@ class Book:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}. "
             elif len(self.authors) == 2:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1][0]}., & {self.authors[1][0]}, {self.authors[1][1][0]}. "
-            elif len(self.authors) > 2 and len(self.authors) <= 20:
-                # Finish writing this!!!!
-                print("Placeholder boi")
-                print("More than two authors oh dear")
+            else:
                 for i in range(0, len(self.authors)):
-                    citation += f"{self.authors[i][0]}, {self.authors[0][1][0]},"
+                    if i != (len(self.authors) - 1):
+                        citation += f"{self.authors[i][0]}, {self.authors[i][1][0]}., "
+                    else:
+                        citation += f"& {self.authors[i][0]}, {self.authors[i][1][0]}. "
         if self.date_published != "":
             citation += f"({self.date_published}). "
         if self.title != "":
