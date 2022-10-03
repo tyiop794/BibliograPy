@@ -1,7 +1,21 @@
-from other_funcs import date_fix, author_split, citation_format
 from datetime import datetime
+from typing import List
+
+from other_funcs import author_split, citation_format, date_fix
+
+
 class Book:
-    def __init__(self, title, authors, date_published, publisher, digital, publication_place, url, accessed): 
+    def __init__(
+        self,
+        title,
+        authors,
+        date_published,
+        publisher,
+        digital,
+        publication_place,
+        url,
+        accessed,
+    ):
         self.title = title
         self.authors = author_split(authors)
         self.publisher = publisher
@@ -36,7 +50,8 @@ class Book:
         except IndexError:
             self.ac_year = ""
 
-    def mla(self):
+    def mla(self) -> str:
+        """Builds citation string for MLA Style Citation."""
         citation = ""
         if self.authors != []:
             authors = self.authors
@@ -57,8 +72,9 @@ class Book:
         citation = citation.strip()
         citation = citation_format(citation)
         return citation
-    
-    def apa(self):
+
+    def apa(self) -> str:
+        """Builds citation string for APA Style Citation."""
         citation = ""
         if self.authors != []:
             if len(self.authors) == 1:
@@ -74,17 +90,18 @@ class Book:
         if self.date_published != "":
             citation += f"({self.date_published}). "
         if self.title != "":
-            citation += f"<em>{self.title}</em>. " 
+            citation += f"<em>{self.title}</em>. "
         if self.publisher != "":
             citation += f"{self.publisher}. "
         if self.digital == "d":
             citation += f"{self.url}"
         citation = citation.strip()
         if citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
-        return citation 
-    
-    def chicago(self):
+            citation = citation[0 : len(citation) - 1] + "."
+        return citation
+
+    def chicago(self) -> str:
+        """Builds citation string for Chicago Style Citation."""
         citation = ""
         if self.authors != []:
             # Is this the same for journal citation?
@@ -102,10 +119,11 @@ class Book:
             citation += f"{self.date_published}. "
         citation = citation.strip()
         if citation[len(citation) - 1] != ".":
-            citation = citation[0:len(citation) - 1] + "."
+            citation = citation[0 : len(citation) - 1] + "."
         return citation
 
     def output(self):
+        """Outputs user entered information."""
         """
         self.title = title
         self.authors = authors
@@ -118,16 +136,23 @@ class Book:
         if len(self.authors) == 1:
             print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0])
         elif len(self.authors) == 2:
-            print("Author(s): " + self.authors[0][1] + " " + self.authors[0][0] + " and "
-            + self.authors[1][1] + self.authors[1][0])
+            print(
+                "Author(s): "
+                + self.authors[0][1]
+                + " "
+                + self.authors[0][0]
+                + " and "
+                + self.authors[1][1]
+                + self.authors[1][0]
+            )
         else:
-            print("Authors: ", end='')
+            print("Authors: ", end="")
             for i in range(0, len(self.authors)):
                 if i == (len(self.authors) - 1):
                     print()
                     print("and " + self.authors[i][1] + self.authors[i][0])
                 else:
-                    print(self.authors[i][1] + self.authors[i][0] + ", ", end='')
+                    print(self.authors[i][1] + self.authors[i][0] + ", ", end="")
         print("Publisher: " + self.publisher)
         if self.digital == "d":
             digital = "Yes"
@@ -137,7 +162,9 @@ class Book:
         if self.digital == "d":
             print("URL/DOI: " + self.url)
 
-def book_ask(sources):
+
+def book_ask(sources: List) -> None:
+    """Prompts for inputting information about a Book source."""
     title = input("Title?: ")
     authors = input("Author(s)? (first and last name; each full name split by comma): ")
     date_published = input("Date published? (MM, DD, YYYY; MM, YYYY; or YYYY): ")
@@ -154,4 +181,15 @@ def book_ask(sources):
         url = ""
     publication_place = input("Place of publication?: ")
     accessed = input("Date accessed (MM, DD, YYYY; MM, YYYY; or YYYY): ")
-    sources.append(Book(title, authors, date_published, publisher, digital, publication_place, url, accessed))
+    sources.append(
+        Book(
+            title,
+            authors,
+            date_published,
+            publisher,
+            digital,
+            publication_place,
+            url,
+            accessed,
+        )
+    )
