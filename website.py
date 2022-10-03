@@ -13,6 +13,7 @@ class Website:
         self.container = container
         self.url = url
         if accessed != "":
+            self.accessed = accessed
             accessed = date_fix(accessed)
             if len(accessed) == 3:
                 self.ac_month = accessed[0]
@@ -110,10 +111,19 @@ class Website:
             citation += f"<em>{self.title}</em>. "
         if self.container != "":
             citation += f"{self.container}. "
-        if self.accessed != "":
-            citation += f"Retrieved {self.accessed}, "
+        if self.ac_year != "":
+            try:
+                citation += f"Retrieved {self.ac_month}, {self.ac_day}, {self.ac_year}, "
+            except AttributeError:
+                try:
+                    citation += f"Retrieved {self.ac_month} {self.ac_year}, "
+                except AttributeError:
+                    citation += f"Retrieved {self.year}, "
         if self.url != "":
-            citation += f"from {self.url} "
+            if self.ac_year != "":
+                citation += f"from {self.url} "
+            else:
+                citation += f"{self.url} "
         citation.strip()
         citation = citation_format(citation)
         return citation
