@@ -3,7 +3,14 @@ from other_funcs import author_split, citation_format, date_fix
 
 class Website:
     def __init__(
-        self, title, authors, container, date_published, url, accessed, publisher
+        self, 
+        title, 
+        authors, 
+        container, 
+        date_published, 
+        url, 
+        accessed, 
+        publisher
     ):
         self.title = title
         if authors != "":
