@@ -15,6 +15,9 @@ Features:
  - provide a reference for in-text citations of specific source (provide option for reference; can be 
  easily disabled)
 
+ To-do list:
+ - Export citations in *alphabetical* order
+
 """
 import sys
 import os
