@@ -15,22 +15,20 @@ def date_fix(date: str) -> List[str]:
     date = date.split(",")
     print(date)
     if len(date) == 1:
-        year = date[0]
+        year = date[0].strip()
         newdate = [f"{year}"]
         return newdate
     elif len(date) == 2:
-        month = date[0]
+        month = date[0].strip()
         month = datetime.strptime(month, "%m").strftime("%b")
-        year = date[1]
+        year = date[1].strip()
         newdate = [f"{month}", f"{year}"]
         return newdate
     elif len(date) == 3:
-        month = date[0]
+        month = date[0].strip()
         month = datetime.strptime(month, "%m").strftime("%b")
-        print(month)
-        day = date[1]
-        year = date[2]
-        print([month, day, year])
+        day = date[1].strip()
+        year = date[2].strip()
         newdate = [month, day, year]
         return newdate
     else:
