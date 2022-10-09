@@ -1,3 +1,7 @@
+from website import Website
+from podcast import Podcast
+from article import Article
+from book import Book
 """
 Reads a file containing source info and exports as a bibliographic
 format of the users' choice.
@@ -112,25 +116,23 @@ Podcast info:
     duration :
 """
 
-from website import Website
-from podcast import Podcast
-from article import Article
-from book import Book
 
 def read_from_file(input_file):
     sources = []
-    read_source = [] 
+    source = ""
+    read_source = []
     all_sources = []
     file = open(input_file, "r")
     line = file.readline()
     while True:
         while line != "\n":
-            read_source.append(line.strip())  
+            read_source.append(line.strip())
             line = file.readline()
         if line == "\n":
             all_sources.append(read_source)
+            read_source = []
         if not line:
-            break   
+            break
     for i in range(0, len(all_sources)):
         line = all_sources[i][0]
         line = line.split(":")
@@ -141,14 +143,18 @@ def read_from_file(input_file):
             if source not in ["article", "book", "podcast", "website"]:
                 raise ValueError("Error! Source not supported!")
         if source == "article":
-            read_source.pop(0)
-            article_template(read_source, sources)
+            all_sources[i].pop(0)
+            article_template(all_sources[i], sources)
         elif source == "book":
+            all_sources[i].pop(0)
             book_template(read_source, sources)
         elif source == "podcast":
+            all_sources[i].pop(0)
             podcast_template(read_source, sources)
         elif source == "website":
+            all_sources[i].pop(0)
             website_template(read_source, sources)
+
 
 def article_template(source, sources):
     author = ""
@@ -186,7 +192,7 @@ def article_template(source, sources):
             accessed = info[1]
         elif info[0] == "url":
             url = info[1]
-    sources.append(Article(title, author, digital, journal, volume, issue, pages, date_published, url, accessed)) 
+    sources.append(Article(title, author, digital, journal, volume, issue, pages, date_published, url, accessed))
 
 
 def website_template(source, sources):
@@ -218,6 +224,7 @@ def website_template(source, sources):
             publisher = info[1]
     sources.append(Website(title, authors, container, date_published, url, accessed, publisher))
 
+
 def podcast_template(source, sources):
     host = ""
     title = ""
@@ -246,7 +253,7 @@ def podcast_template(source, sources):
         elif info[0] == "duration":
             duration = info[1]
     sources.append(Podcast(title, host, publisher, podcast, date, url, duration))
-        
+
 
 def book_template(source, sources):
     title = ""
@@ -279,4 +286,3 @@ def book_template(source, sources):
         elif info[0] == "publisher":
             publisher = info[1]
     sources.append(Book(title, authors, date_published, publisher, digital, publication_place, url, accessed))
-    
