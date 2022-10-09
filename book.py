@@ -5,6 +5,11 @@ from other_funcs import author_split, citation_format, date_fix
 
 
 class Book:
+    """
+    To-do list:
+    Ask for page numbers.
+    Only ask for year of publication (full date not needed).
+    """
     def __init__(
         self,
         title,
