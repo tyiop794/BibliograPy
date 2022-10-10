@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List
 
 from other_funcs import author_split, citation_format, date_fix
@@ -9,27 +8,35 @@ class Book:
     To-do list:
     Ask for page numbers.
     Only ask for year of publication (full date not needed).
+    Cite specific essay in a collection book (essay by one author)
+    Cite a specific chapter
     """
     def __init__(
         self,
         title,
+        chapter_title,
+        by_chapter,
         authors,
+        editors,
         date_published,
         publisher,
         digital,
         publication_place,
         url,
-        accessed,
+        pages
     ):
         self.title = title
         self.authors = author_split(authors)
+        self.editors = author_split(editors)
         self.publisher = publisher
         self.digital = digital
         self.url = url
         self.publication_place = publication_place
         self.date_published = date_published
+        self.pages = pages
+        self.chapter_title = chapter_title
+        self.by_chapter = by_chapter
         newdate = date_fix(date_published)
-        print(newdate)
         if len(newdate) == 3:
             self.month = newdate[0]
             self.day = newdate[1]
@@ -39,21 +46,22 @@ class Book:
             self.year = newdate[1]
         else:
             self.year = newdate[0]
-        print(self.year)
+        """
         self.accessed = accessed
         new_accessed = date_fix(accessed)
         try:
             if len(new_accessed) == 3:
-                self.ac_month = newdate[0]
-                self.ac_day = newdate[1]
-                self.ac_year = newdate[2]
+                self.ac_month = new_accessed[0]
+                self.ac_day = new_accessed[1]
+                self.ac_year = new_accessed[2]
             elif len(new_accessed) == 2:
-                self.ac_month = newdate[0]
-                self.ac_year = newdate[1]
+                self.ac_month = new_accessed[0]
+                self.ac_year = new_accessed[1]
             else:
-                self.ac_year = newdate[0]
+                self.ac_year = new_accessed[0]
         except IndexError:
             self.ac_year = ""
+        """
 
     def mla(self) -> str:
         """Builds citation string for MLA Style Citation."""
@@ -161,7 +169,7 @@ class Book:
         print("Publisher: " + self.publisher)
         if self.digital == "d":
             digital = "Yes"
-        elif self.digital == "p":
+        else:
             digital = "No"
         print("Digital: " + digital)
         if self.digital == "d":
@@ -171,8 +179,22 @@ class Book:
 def book_ask(sources: List) -> None:
     """Prompts for inputting information about a Book source."""
     title = input("Title?: ")
-    authors = input("Author(s)? (first and last name; each full name split by comma): ")
-    date_published = input("Date published? (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+    by_chapter = ""
+    while by_chapter not in ["b", "c"]:
+        by_chapter = input("Whole book by one author (b) or by chapter (multiple authors) (c)?: ")
+        if by_chapter not in ["b", "c"]:
+            print("Invalid response! Asking again.")
+    if by_chapter == "b":
+        authors = input("Author(s)? (first and last name; each full name split by comma): ")
+        editors = ""
+        chapter_title = ""
+        pages = ""
+    else:
+        editors = input("Editor(s) of full book? (first and last name; each full name split by comma): ")
+        chapter_title = input("Chapter title?: ")
+        pages = input("Page numbers of chapter? (First-Last): ")
+        authors = input("Author(s) of chapter? (first and last name; each full name split by comma): ")
+    date_published = input("Year published?: ")
     publisher = input("Publisher?: ")
     digital = input("Physical (p) or digital (d)?: ")
     while True:
@@ -185,16 +207,20 @@ def book_ask(sources: List) -> None:
     else:
         url = ""
     publication_place = input("Place of publication?: ")
-    accessed = input("Date accessed (MM, DD, YYYY; MM, YYYY; or YYYY): ")
+    # accessed = input("Date accessed (MM, DD, YYYY; MM, YYYY; or YYYY): ")
     sources.append(
         Book(
             title,
+            chapter_title,
+            by_chapter,
             authors,
+            editors,
             date_published,
             publisher,
             digital,
             publication_place,
             url,
-            accessed,
+            pages
+            # accessed,
         )
     )
