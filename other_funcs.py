@@ -6,8 +6,8 @@ def author_split(string: str) -> List[Tuple[str, str]]:
     array = []
     authors = string.split(",")
     for i in range(0, len(authors)):
-        author_split = authors[i].split()
-        array.append((author_split[1].strip(), author_split[0].strip()))
+        authors_split = authors[i].split()
+        array.append((authors_split[1].strip(), authors_split[0].strip()))
     return array
 
 
