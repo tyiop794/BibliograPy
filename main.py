@@ -66,15 +66,15 @@ def export_entries(sources, type) -> str:
     </style>
     <body>
     """
-    if type == "m":
+    if type == "m" or "mla" or "MLA":
         for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].mla()}</p>\n'
         html += "</body>\n</html>"
-    elif type == "a":
+    elif type == "a" or "apa" or "APA":
         for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].apa()}</p>\n'
         html += "</body>\n</html>"
-    elif type == "c":
+    elif type == "c" or "chicago" or "Chicago":
         for i in range(0, len(sources)):
             html += f'<p class="p1">{sources[i].chicago()}</p>\n'
         html += "</body>\n</html>"
@@ -99,11 +99,11 @@ def main() -> None:
     sources = []
     print("Welcome to BibliograPy!")
     biblio = ""
-    while biblio not in ["m", "a", "c", "i"]:
+    while biblio not in ["m", "mla", "MLA", "a", "APA", "c", "Chicago" "i"]:
         biblio = input(
             "Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: "
         )
-        if biblio not in ["m", "a", "c", "i"]:
+        if biblio not in ["m", "mla", "MLA", "a", "APA", "c", "Chicago" "i"]:
             print("Not possible! Asking again!")
     print("For each entry type in information from the source you are trying to cite")
     print("(or leave blank if information is unknown)")
@@ -113,13 +113,17 @@ def main() -> None:
         source = input(
             "Type of source (j for scholarly article, b for book, a for audio/podcast, w for website): "
         )
-        if source == "j":
+        if source not in ["j", "scholarly article", "article", "b", "book", "a", "audio/podcast", "w", "website"]:
+            print("Not possible! Asking again!")
+
+
+        if source == "j" or "scholarly article" or "article":
             article_ask(sources)
-        elif source == "b":
+        elif source == "b" or "book":
             book_ask(sources)
-        elif source == "a":
+        elif source == "a" or "audio/podcast":
             podcast_ask(sources)
-        elif source == "w":
+        elif source == "w" or "website":
             web_ask(sources)
         print("Current sources added: ")
         for i in range(0, len(sources)):
