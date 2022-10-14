@@ -2,6 +2,7 @@ from website import Website
 from podcast import Podcast
 from article import Article
 from book import Book
+from typing import List
 """
 Reads a file containing source info and exports as a bibliographic
 format of the users' choice.
@@ -117,7 +118,7 @@ Podcast info:
 """
 
 
-def read_from_file(input_file):
+def read_from_file(input_file) -> List:
     sources = []
     source = ""
     read_source = []
@@ -154,9 +155,10 @@ def read_from_file(input_file):
         elif source == "website":
             all_sources[i].pop(0)
             website_template(read_source, sources)
+    return sources
 
 
-def article_template(source, sources):
+def article_template(source, sources) -> None:
     author = ""
     title = ""
     digital = ""
@@ -195,7 +197,7 @@ def article_template(source, sources):
     sources.append(Article(title, author, digital, journal, volume, issue, pages, date_published, url, accessed))
 
 
-def website_template(source, sources):
+def website_template(source, sources) -> None:
     title = ""
     authors = ""
     container = ""
@@ -225,7 +227,7 @@ def website_template(source, sources):
     sources.append(Website(title, authors, container, date_published, url, accessed, publisher))
 
 
-def podcast_template(source, sources):
+def podcast_template(source, sources) -> None:
     host = ""
     title = ""
     publisher = ""
@@ -255,7 +257,7 @@ def podcast_template(source, sources):
     sources.append(Podcast(title, host, publisher, podcast, date, url, duration))
 
 
-def book_template(source, sources):
+def book_template(source, sources) -> None:
     title = ""
     authors = ""
     date_published = ""
@@ -270,7 +272,7 @@ def book_template(source, sources):
         for x in range(0, len(info)):
             info[x] = info[x].strip()
         if info[0] == "authors":
-            author = info[1]
+            authors = info[1]
         elif info[0] == "title":
             title = info[1]
         elif info[0] == "date_published":
