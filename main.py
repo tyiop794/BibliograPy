@@ -66,17 +66,28 @@ def export_entries(sources, type) -> str:
     </style>
     <body>
     """
+    # Sources in alphabetical order
+    alpha_sources = []
     if type == "m" or "mla" or "MLA":
         for i in range(0, len(sources)):
-            html += f'<p class="p1">{sources[i].mla()}</p>\n'
+            alpha_sources.append(sources[i].mla())
+        alpha_sources.sort()
+        for i in range(0, len(sources)):
+            html += f'<p class="p1">{alpha_sources[i]}</p>\n'
         html += "</body>\n</html>"
     elif type == "a" or "apa" or "APA":
         for i in range(0, len(sources)):
-            html += f'<p class="p1">{sources[i].apa()}</p>\n'
+            alpha_sources.append(sources[i].apa())
+        alpha_sources.sort()
+        for i in range(0, len(sources)):
+            html += f'<p class="p1">{alpha_sources[i]}</p>\n'
         html += "</body>\n</html>"
     elif type == "c" or "chicago" or "Chicago":
         for i in range(0, len(sources)):
-            html += f'<p class="p1">{sources[i].chicago()}</p>\n'
+            alpha_sources.append(sources[i].chicago())
+        alpha_sources.sort()
+        for i in range(0, len(sources)):
+            html += f'<p class="p1">{alpha_sources[i]}</p>\n'
         html += "</body>\n</html>"
     # file = open("biblio.html", "w")
     # file.write(html)
@@ -115,8 +126,6 @@ def main() -> None:
         )
         if source not in ["j", "scholarly article", "article", "b", "book", "a", "audio/podcast", "w", "website"]:
             print("Not possible! Asking again!")
-
-
         if source == "j" or "scholarly article" or "article":
             article_ask(sources)
         elif source == "b" or "book":
