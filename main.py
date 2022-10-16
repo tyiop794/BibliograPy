@@ -31,6 +31,7 @@ from website import Website, web_ask
 from podcast import Podcast, podcast_ask
 from article import Article, article_ask
 from book import Book, book_ask
+from template import read_from_file
 from typing import List, Union
 
 # Date formatting needs to be fixed across the board! (Super inconsistent, man!)
