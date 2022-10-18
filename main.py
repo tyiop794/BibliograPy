@@ -148,6 +148,14 @@ def main() -> None:
 # Test entry for journal article
 if len(sys.argv) == 1:
     main()
+elif len(sys.argv) == 3 and sys.argv[1] == "-t":
+    if os.path.exists(sys.argv[2]):
+        sources = read_from_file(sys.argv[2])
+        cite_type = input("Citation type? (m for mla, c for chicago, or a for apa): ")
+        export_entries(sources, cite_type)
+    else:
+        raise ValueError("Error! File does not exist!")
+
 """
 if len(sys.argv) == 2 and (sys.argv[1] == "--usage" or sys.argv[1] == "--help"):
     usage()

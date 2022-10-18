@@ -1,0 +1,18 @@
+source : article
+title : Use of library space and the library as place
+authors : Svanhild Aabo, Ragnar Audunson
+digital : p
+journal : Library & information science research
+volume : 34
+issue : 2
+pages : 138-149
+
+source : website
+title : Book bans and 'gag orders': the US schools crackdown no one asked for
+authors : Adam Gabbatt
+container: The Guardian
+date_published : 2, 21, 2022
+url : https://www.theguardian.com/world/2022/feb/21/books-bans-gag-orders-suppress-discussion-racism-lgbtq-us-schools?CMP=Share_AndroidApp_Other
+accessed : 4, 20, 2022
+publisher : Guardian Media Group
+
