@@ -125,24 +125,28 @@ def read_from_file(input_file) -> List:
     all_sources = []
     file = open(input_file, "r")
     line = file.readline()
-    while True:
-        while line != "\n":
+    while line:
+        while line != "\n" and line != "":
             read_source.append(line.strip())
             line = file.readline()
         if line == "\n":
             all_sources.append(read_source)
             read_source = []
+            line = file.readline()
         if not line:
             break
+    print(all_sources)
     for i in range(0, len(all_sources)):
         line = all_sources[i][0]
         line = line.split(":")
+        line[0] = line[0].strip()
         if line[0] != "source":
             raise ValueError("Error! First line needs to specify source type!")
         elif line[0] == "source":
             source = line[1].strip()
             if source not in ["article", "book", "podcast", "website"]:
                 raise ValueError("Error! Source not supported!")
+        source = source.lower()
         if source == "article":
             all_sources[i].pop(0)
             article_template(all_sources[i], sources)
