@@ -69,21 +69,24 @@ def export_entries(sources, type) -> str:
     """
     # Sources in alphabetical order
     alpha_sources = []
-    if type == "m" or "mla" or "MLA":
+    if type == "m" or type == "mla" or type == "MLA":
+        print("m")
         for i in range(0, len(sources)):
             alpha_sources.append(sources[i].mla())
         alpha_sources.sort()
         for i in range(0, len(sources)):
             html += f'<p class="p1">{alpha_sources[i]}</p>\n'
         html += "</body>\n</html>"
-    elif type == "a" or "apa" or "APA":
+    elif type == "a" or type == "apa" or type == "APA":
+        print("a")
         for i in range(0, len(sources)):
             alpha_sources.append(sources[i].apa())
         alpha_sources.sort()
         for i in range(0, len(sources)):
             html += f'<p class="p1">{alpha_sources[i]}</p>\n'
         html += "</body>\n</html>"
-    elif type == "c" or "chicago" or "Chicago":
+    elif type == "c" or type == "chicago" or type == "Chicago":
+        print("c")
         for i in range(0, len(sources)):
             alpha_sources.append(sources[i].chicago())
         alpha_sources.sort()
@@ -146,6 +149,7 @@ def main() -> None:
 
 
 # Test entry for journal article
+"""
 if len(sys.argv) == 1:
     main()
 elif len(sys.argv) == 3 and sys.argv[1] == "-t":
@@ -156,46 +160,4 @@ elif len(sys.argv) == 3 and sys.argv[1] == "-t":
     else:
         raise ValueError("Error! File does not exist!")
 
-"""
-if len(sys.argv) == 2 and (sys.argv[1] == "--usage" or sys.argv[1] == "--help"):
-    usage()
-elif len(sys.argv) == 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
-    print("Error: no source specified!")
-    usage()
-elif len(sys.argv) > 2 and (sys.argv[1] == "-s" or sys.argv[1] == "--source"):
-    if sys.argv[2] == "a":
-        source = 0
-    elif sys.argv[2] == "w":
-        source = 1 
-    elif sys.argv[2] == "p":
-        source = 2 
-    elif sys.argv[2] == "b":
-        source = 3 
-if source == 3 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
-    print(info.usage_book)
-    exit(0)
-elif source == 0 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
-    print(info.usage_article)
-    exit(0)
-elif source == 1 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
-    print(info.usage_website)
-    exit(0)
-elif source == 2 and (sys.argv[(len(sys.argv) - 1)]) == "--usage":
-    print(info.usage_podcast)
-    exit(0)
-
-if source == 3:
-    for i in range(0, len(sys.argv)):
-        if sys.argv[i] == "-t":
-            if i == len(sys.argv) - 1 or sys.argv[i + 1][0] == "-":
-                print("Error: No title specified!")
-                exit(1)
-            elif sys.argv[i + 1][0] == "\"" and sys.argv[i + 1][len(sys.argv[i + 1]) - 1] == "\"":
-                title = sys.argv[i + 1]
-            else:
-                print("Invalid title! Did you surround title with quotes?")
-        elif sys.argv[i] == "-a":
-            if i == len(sys.argv) - 1:
-                print("Error! No authors specified!")
-                exit(1)
 """
