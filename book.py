@@ -26,8 +26,10 @@ class Book:
         pages
     ):
         self.title = title
-        self.authors = author_split(authors)
-        self.editors = author_split(editors)
+        if authors != "":
+            self.authors = author_split(authors)
+        if editors != "":
+            self.editors = author_split(editors)
         self.publisher = publisher
         self.digital = digital
         self.url = url
