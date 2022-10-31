@@ -16,7 +16,7 @@ class Website:
         if authors != "":
             self.authors = author_split(authors)
         else:
-            self.authors = ""
+            self.authors = []
         self.container = container
         self.url = url
         if accessed != "":
@@ -56,21 +56,13 @@ class Website:
             if len(self.authors) == 1:
                 citation += f"{self.authors[0][0]}, {self.authors[0][1]}. "
         if self.title != "":
-            citation += f'"{self.title}"'
+            citation += f'"{self.title}." '
         if self.container != "":
             citation += f"<em>{self.container}</em>, "
         if self.publisher != "":
             citation += f"{self.publisher}, "
         if self.year != "":
             citation += f"{self.year}, "
-        if self.year != "":
-            try:
-                citation += f"({self.year}, {self.month} {self.day}). "
-            except AttributeError:
-                try:
-                    citation += f"({self.year}, {self.month}). "
-                except AttributeError:
-                    citation += f"({self.year}). "
         else:
             citation += "(n.d.). "
         if self.url != "":
