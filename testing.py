@@ -11,7 +11,7 @@ from article import *
 
 sources = []
 book = Book(
-    "1984", "George Orwell", "", "Secker & Warburg", "p", "London", "", "4, 8, 2018"
+    "1984", "", "b", "George Orwell", "", "", "Secker & Warburg", "p", "London", "", "4, 8, 2018"
 )
 book.output()
 sources.append(book)
@@ -42,4 +42,4 @@ journal.output()
 sources.append(journal)
 website.output()
 sources.append(website)
-export_entries(sources, "a")
+export_entries(sources, "m")
