@@ -2,7 +2,7 @@
 BibliograPy by Kamil Yousuf (@tyiop794)
 
 Features:
- - generate citations in MLA, APA, Chicago, and IEEE
+ - generate citations in MLA, APA, and Chicago
  - citations are properly formatted and can be exported to a file for a bibliography
  - can add to an existing bibliography
  - can find link from the internet if link is unknown (attempt to fill in blanks if blank exists)
@@ -33,20 +33,6 @@ from article import Article, article_ask
 from book import Book, book_ask
 from template import read_from_file
 from typing import List, Union
-
-# Date formatting needs to be fixed across the board! (Super inconsistent, man!)
-"""
-Fixing date stuffs:
-Things to ask for:
-- year 
-- month
-- day
-
-Things to figure out:
-- formatting across different bibliographic styles
-"""
-
-# Ask for month, day, and year
 
 
 def export_entries(sources, type) -> str:
@@ -116,7 +102,7 @@ def main() -> None:
     biblio = ""
     while biblio not in ["m", "mla", "MLA", "a", "APA", "c", "Chicago" "i"]:
         biblio = input(
-            "Will bibliography be in MLA (9th edition) (m), APA (a), Chicago (c), or IEEE (i)?: "
+            "Will bibliography be in MLA (9th edition) (m), APA (a), or Chicago?: "
         )
         if biblio not in ["m", "mla", "MLA", "a", "APA", "c", "Chicago" "i"]:
             print("Not possible! Asking again!")
@@ -124,7 +110,6 @@ def main() -> None:
     print("(or leave blank if information is unknown)")
     print()
     while True:
-        authors = []
         source = input(
             "Type of source (j for scholarly article, b for book, a for audio/podcast, w for website): "
         )
@@ -149,10 +134,9 @@ def main() -> None:
 
 
 # Test entry for journal article
-"""
 if len(sys.argv) == 1:
     main()
-elif len(sys.argv) == 3 and sys.argv[1] == "-t":
+elif len(sys.argv) == 3 and sys.argv[1] == "-f":
     if os.path.exists(sys.argv[2]):
         sources = read_from_file(sys.argv[2])
         cite_type = input("Citation type? (m for mla, c for chicago, or a for apa): ")
@@ -160,4 +144,3 @@ elif len(sys.argv) == 3 and sys.argv[1] == "-t":
     else:
         raise ValueError("Error! File does not exist!")
 
-"""
