@@ -11,25 +11,24 @@ class Book:
     Cite specific essay in a collection book (essay by one author)
     Cite a specific chapter
     """
-    def __init__(
-        self,
-        title,
-        chapter_title,
-        by_chapter,
-        authors,
-        editors,
-        date_published,
-        publisher,
-        digital,
-        publication_place,
-        url,
-        pages
-    ):
+    def __init__(self,
+                 title="",
+                 authors="",
+                 editors="",
+                 publisher="",
+                 digital="",
+                 url="",
+                 publication_place="",
+                 date_published="",
+                 pages="",
+                 chapter_title="",
+                 by_chapter=""):
         self.title = title
         if authors != "":
             self.authors = author_split(authors)
         if editors != "":
             self.editors = author_split(editors)
+        self.editors = editors
         self.publisher = publisher
         self.digital = digital
         self.url = url
@@ -48,42 +47,62 @@ class Book:
             self.year = newdate[1]
         else:
             self.year = newdate[0]
-        """
-        self.accessed = accessed
-        new_accessed = date_fix(accessed)
-        try:
-            if len(new_accessed) == 3:
-                self.ac_month = new_accessed[0]
-                self.ac_day = new_accessed[1]
-                self.ac_year = new_accessed[2]
-            elif len(new_accessed) == 2:
-                self.ac_month = new_accessed[0]
-                self.ac_year = new_accessed[1]
-            else:
-                self.ac_year = new_accessed[0]
-        except IndexError:
-            self.ac_year = ""
-        """
 
     def mla(self) -> str:
         """Builds citation string for MLA Style Citation."""
         citation = ""
-        if self.authors != []:
-            authors = self.authors
-            for i in range(0, len(authors)):
-                if len(authors) == 1:
-                    citation += f"{authors[0][0]}, {authors[0][1]}. "
-                elif len(authors) == 2:
-                    if i == 0:
+        if self.by_chapter == "b":
+            if self.authors != []:
+                authors = self.authors
+                for i in range(0, len(authors)):
+                    if len(authors) == 1:
                         citation += f"{authors[0][0]}, {authors[0][1]}. "
-                    elif i == 1:
-                        citation += f"{authors[1][1]} {authors[1][0]}. "
-        if self.title != "":
-            citation += f"<em>{self.title}</em>. "
-        if self.publisher != "":
-            citation += f"{self.publisher}, "
-        if self.year != "":
-            citation += f"{self.year}. "
+                    elif len(authors) == 2:
+                        if i == 0:
+                            citation += f"{authors[0][0]}, {authors[0][1]}. "
+                        elif i == 1:
+                            citation += f"{authors[1][1]} {authors[1][0]}. "
+            if self.title != "":
+                citation += f"<em>{self.title}</em>. "
+            if self.publisher != "":
+                citation += f"{self.publisher}, "
+            if self.year != "":
+                citation += f"{self.year}. "
+        elif self.by_chapter == "c":
+            print("Hello world!")
+            if self.authors != []:
+                authors = self.authors
+                for i in range(0, len(authors)):
+                    if len(authors) == 1:
+                        citation += f"{authors[0][0]}, {authors[0][1]}. "
+                    elif len(authors) == 2:
+                        if i == 0:
+                            citation += f"{authors[0][0]}, {authors[0][1]}. "
+                        elif i == 1:
+                            citation += f"{authors[1][1]} {authors[1][0]}. "
+            if self.chapter_title != "":
+                citation += f"\"{self.chapter_title}.\" "
+            if self.title != "":
+                if self.editors != []:
+                    citation += f"<em>{self.title}</em>, "
+                else:
+                    citation += f"<em>{self.title}</em>. "
+            if self.editors != []:
+                editors = self.editors
+                for i in range(0, len(editors)):
+                    if len(editors) == 1:
+                        citation += f"{editors[0][0]}, {editors[0][1]}. "
+                    elif len(editors) == 2:
+                        if i == 0:
+                            citation += f"{editors[0][0]}, {editors[0][1]}. "
+                        elif i == 1:
+                            citation += f"{editors[1][1]} {editors[1][0]}. "
+            if self.publisher != "":
+                citation += f"{self.publisher}, "
+            if self.year != "":
+                citation += f"{self.year}, "
+            if self.pages != "":
+               citation += f"{self.pages}. "
         citation = citation.strip()
         citation = citation_format(citation)
         return citation
@@ -209,20 +228,17 @@ def book_ask(sources: List) -> None:
     else:
         url = ""
     publication_place = input("Place of publication?: ")
-    # accessed = input("Date accessed (MM, DD, YYYY; MM, YYYY; or YYYY): ")
     sources.append(
         Book(
             title,
-            chapter_title,
-            by_chapter,
             authors,
             editors,
-            date_published,
             publisher,
             digital,
-            publication_place,
             url,
-            pages
-            # accessed,
-        )
+            publication_place,
+            date_published,
+            pages,
+            chapter_title,
+            by_chapter)
     )

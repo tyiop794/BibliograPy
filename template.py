@@ -268,8 +268,11 @@ def book_template(source, sources) -> None:
     digital = ""
     publication_place = ""
     url = ""
-    accessed = ""
     publisher = ""
+    pages = ""
+    by_chapter = ""
+    editors = ""
+    chapter_title = ""
     for i in range(0, len(source)):
         info = source[i]
         info = info.split(":")
@@ -287,8 +290,24 @@ def book_template(source, sources) -> None:
             publication_place = info[1]
         elif info[0] == "url":
             url = info[1]
-        elif info[0] == "accessed":
-            accessed = info[1]
         elif info[0] == "publisher":
             publisher = info[1]
-    sources.append(Book(title, authors, date_published, publisher, digital, publication_place, url, accessed))
+        elif info[0] == "pages":
+            pages = info[1]
+        elif info[0] == "by_chapter":
+            by_chapter = info[1]
+        elif info[0] == "editors":
+            editors = info[1]
+        elif info[0] == "chapter_title":
+            chapter_title = info[1]
+    sources.append(Book(title,
+                        authors,
+                        editors,
+                        publisher,
+                        digital,
+                        url,
+                        publication_place,
+                        date_published,
+                        pages,
+                        chapter_title,
+                        by_chapter))
