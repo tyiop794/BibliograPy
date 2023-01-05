@@ -73,21 +73,8 @@ class Article:
         if self.pages != "":
             citation += f"pp. {self.pages}. "
         citation = citation.strip()
-        new_citation = ""
-        cnt = 0
-        for i in range(0, len(citation)):
-            new_citation += citation[i]
-            """
-            if i == 90:
-               new_citation += "\n     " 
-               cnt += 1
-            elif i == (90 + (75 * cnt)):
-                new_citation += "     "
-                cnt += 1
-            """
-        if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0 : len(new_citation) - 1] + "."
-        return new_citation
+        citation = citation_format(citation)
+        return citation
 
     def apa(self) -> str:
         """Builds citation string for APA Style Citation."""
@@ -118,21 +105,8 @@ class Article:
         if self.digital == "d":
             citation += f"{self.url}"
         citation = citation.strip()
-        new_citation = ""
-        cnt = 0
-        for i in range(0, len(citation)):
-            new_citation += citation[i]
-            """
-            if i == 90:
-                new_citation += "\n     " 
-                cnt += 1
-            elif i == (90 + (75 * cnt)):
-                new_citation += "     "
-                cnt += 1
-            """
-        if new_citation[len(new_citation) - 1] == ",":
-            new_citation = new_citation[0 : len(new_citation) - 1] + "."
-        return new_citation
+        citation = citation_format(citation)
+        return citation
 
     def chicago(self) -> str:
         """Builds citation string for Chicago Style Citation."""
@@ -155,8 +129,7 @@ class Article:
         if self.pages != "":
             citation += f"{self.pages}."
         citation = citation.strip()
-        if citation[len(citation) - 1] != ".":
-            citation = citation[0 : len(citation) - 1] + "."
+        citation = citation_format(citation)
         return citation
 
     def output(self) -> None:
@@ -184,7 +157,7 @@ class Article:
                     print(self.authors[i][1] + self.authors[i][0] + ", ", end="")
         if self.digital == "p":
             digital = "No"
-        elif self.digital == "d":
+        else:
             digital = "Yes"
         print("Digital: " + digital)
         print("Journal: " + self.journal)
