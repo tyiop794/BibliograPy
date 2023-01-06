@@ -40,10 +40,8 @@ class Podcast:
         if self.url != "":
             citation += f"{self.url}. "
         citation = citation.strip()
-        if citation[len(citation) - 1] == ",":
-            citation = citation[0 : len(citation) - 1] + "."
-        elif citation[len(citation) - 1].isalpha():
-            citation = citation[0 : len(citation)] + "."
+        citation = citation_format(citation)
+        return citation
 
     def apa(self) -> str:
         """Builds citation string for APA Style Citation."""
@@ -68,10 +66,7 @@ class Podcast:
         if self.url != "":
             citation += f"{self.url}"
         citation.strip()
-        if citation[len(citation) - 1].isalpha():
-            citation += "."
-        elif citation[len(citation) - 1] == ",":
-            citation = citation[0 : len(citation) - 1] + "."
+        citation = citation_format(citation)
         return citation
 
     def chicago(self) -> str:
@@ -99,10 +94,7 @@ class Podcast:
         if self.url != "":
             citation += f"{self.url}. "
         citation.strip()
-        if citation[len(citation) - 1].isalpha():
-            citation += "."
-        elif citation[len(citation) - 1] != ".":
-            citation = citation[0 : len(citation) - 1] + "."
+        citation = citation_format(citation)
         return citation
 
 
