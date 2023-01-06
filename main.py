@@ -17,6 +17,8 @@ Features:
 
  To-do list:
  - Export citations in *alphabetical* order
+ - ask user if they would like to sort authors/editors manually by priority
+ or automatically alphabetically
 
 """
 import sys
