@@ -136,7 +136,7 @@ def main() -> None:
 # Test entry for journal article
 if len(sys.argv) == 1:
     main()
-elif len(sys.argv) == 3 and sys.argv[1] == "-f":
+elif len(sys.argv) == 3 and sys.argv[2] == "-f":
     if os.path.exists(sys.argv[2]):
         sources = read_from_file(sys.argv[2])
         cite_type = input("Citation type? (m for mla, c for chicago, or a for apa): ")
